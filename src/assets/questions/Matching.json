@@ -1,0 +1,17 @@
+[
+  {
+    "statement": "matching matching matching matching",
+    "cases": [
+      {
+        "image": "image1.png",
+        "name": "name",
+        "indications": ["xxx", "yyy"]
+      },
+      {
+        "image": "image2.png",
+        "name": "name",
+        "indications": ["zzz"]
+      }
+    ]
+  }
+]

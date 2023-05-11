@@ -1,0 +1,186 @@
+[
+  {
+    "topic": "Cock-up",
+    "video": "https://www.youtube.com/embed/4LdV2hY9X6o",
+    "questions": [
+      {
+        "statement": "請問cock-up splint不適用於何種診斷呢？",
+        "options": [
+          "Carpal Tunnel Syndrome",
+          "Extensor Tendon Rupture",
+          "Radial Nerve Palsy",
+          "Wrist sprain or instability"
+        ],
+        "answer": 1
+      },
+      {
+        "statement": "Carpal tunnel syndrome之成因：腕隧道狹窄，導致通過腕部處的哪條神經受到壓迫導致？",
+        "options": [
+          "radial nerve",
+          "ulnar nerve",
+          "median nerve",
+          "thoracic nerve"
+        ],
+        "answer": 2
+      },
+      {
+        "statement": "副木製作時，擺位方式何者錯誤？",
+        "options": [
+          "要求個案用力維持finger extension",
+          "手腕extension 20度",
+          "請個案手腕輕放在彈性繃帶上",
+          "請個案盡可能放鬆"
+        ],
+        "answer": 0
+      },
+      {
+        "statement": "有哪些注意事項或運動，可預防carpal tunnel syndrome發生，以下何者正確？",
+        "options": [
+          "當手腕彎曲時，避免重複、強力的抓握動作",
+          "重複性活動中需要適度休息",
+          "活動前後可做適度伸展",
+          "以上皆是"
+        ],
+        "answer": 3
+      },
+      {
+        "statement": "cock-up splint之穿戴注意事項，以下何者正確？",
+        "options": [
+          "黏扣帶剛好順著手圍大小黏貼即可，不需要拉太緊也不要太鬆導致副木在手上晃動。",
+          "穿戴時機為手部休息的時候，若需要做事時則建議將副木拆下。",
+          "白天穿戴時，建議單次最多穿戴2小時，即要拆掉副木休息約20-30分鐘，並且可搭配肌腱滑動運動。",
+          "以上皆是"
+        ],
+        "answer": 3
+      }
+    ]
+  },
+  {
+    "topic": "Flexor",
+    "video": "https://www.youtube.com/embed/58wQwb2UfKA",
+    "questions": [
+      {
+        "statement": "下列哪條屈肌不負責屈腕動作？",
+        "options": [
+          "Flexor Carpi Ulnaris",
+          "Flexor Carpi Radialis",
+          "Flexor Pollicis Longus",
+          "Palmaris Longus"
+        ],
+        "answer": 2
+      },
+      {
+        "statement": "屈肌肌腱在下列哪一區損傷，通常預後就差?",
+        "options": ["Zone I", "Zone II", "Zone III", "Zone IV"],
+        "answer": 1
+      },
+      {
+        "statement": "依據屈肌肌腱復健計畫（Immobilize），術後第幾週可以開始主動做屈曲的關節活動運動？",
+        "options": ["術後一週後", "術後兩週後", "術後三週後", "術後四週後"],
+        "answer": 3
+      },
+      {
+        "statement": "製作flexor splint的角度何者正確？",
+        "options": [
+          "腕部屈曲90度",
+          "MP屈曲90度",
+          "MP與finger屈曲合計90度",
+          "腕部與MP屈曲合計90度"
+        ],
+        "answer": 3
+      },
+      {
+        "statement": "關於屈曲肌腱損上的衛教何者錯誤？",
+        "options": [
+          "術後應盡量保持良好心情，可以盡量多吃巧克力",
+          "術後四週內應24小時穿戴副木",
+          "避免水腫持續發生，應定時施作向心按摩",
+          "拆線隔一天後才可以開始施作壓疤按摩"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "topic": "AAFO",
+    "video": "https://youtube.com/embed/VioA2LpMFbI",
+    "questions": [
+      {
+        "statement": "下列造成垂足（drop foot）的狀況何者屬於製作AAFO的適用對象？",
+        "options": [
+          "腦中風造成肌張力過強者",
+          "神經損傷造成腳踝背屈（ankle dorsiflexion）肌力不佳者",
+          "創傷性腦損傷造成肌張力過強者",
+          "以上皆是"
+        ],
+        "answer": 3
+      },
+      {
+        "statement": "關於AAFO副木塑形過程的注意事項，何者為非？",
+        "options": [
+          "若個案下肢有張力或有變形狀況，可在製作前先進行拉筋及被動關節運動，以利擺位及副木製作。",
+          "副木塑形過程中欲調整knee及ankle角度時需移動sander來調整。",
+          "順平脛骨前側副木時需用力向上拉扯及向內壓，以避免不服貼，就算產生波浪邊也沒關係。",
+          "製作前須貼兩條泡棉，分別在脛骨前側及腳板最高處。"
+        ],
+        "answer": 2
+      },
+      {
+        "statement": "關於AAFO穿戴方式的敘述，下列何者為非？",
+        "options": [
+          "需將底板前端對準腳掌兩側突出兩點連線（metatarsal line）。",
+          "在坐姿下穿戴完畢就算站起來後泡棉固定帶有不服貼的狀況也完全不須再重新調整。",
+          "需將knee及ankle擺至90度，再黏上兩條泡棉固定帶。",
+          "若穿戴時有緊繃卡住的狀況，可嘗試用旋轉方式慢慢套入後再調整至正確位置。"
+        ],
+        "answer": 1
+      },
+      {
+        "statement": "下列何者非合適鞋子種類選擇？",
+        "options": ["高跟鞋", "功夫鞋", "運動鞋", "運動涼鞋"],
+        "answer": 0
+      },
+      {
+        "statement": "穿戴AAFO執行哪些動作時腳踝角度會大於90度，因此須先將泡棉固定帶放鬆以免過程中造成副木斷裂？",
+        "options": ["上下樓梯", "上下斜坡", "蹲下", "以上皆是"],
+        "answer": 3
+      }
+    ]
+  },
+  {
+    "topic": "Extensor",
+    "video": "https://youtube.com/embed/CCQG1Sh5D28",
+    "questions": [
+      {
+        "statement": "肌鍵損傷的病人應避免攝取何物？",
+        "options": ["咖啡因", "尼古丁", "巧克力", "以上皆是"],
+        "answer": 3
+      },
+      {
+        "statement": "手術後第二天~四星期副木應穿戴多長的時間？",
+        "options": ["1小時", "6小時", "12小時", "24小時"],
+        "answer": 3
+      },
+      {
+        "statement": "Extensor splint 需要量測的位置何者正確？",
+        "options": ["中指遠端至前臂2/3寬", "MP寬", "前臂2/3寬", "以上皆是"],
+        "answer": 3
+      },
+      {
+        "statement": "伸指肌的分區何者正確？",
+        "options": ["手背7個區域", "前臂2個區域", "大拇指5個區域", "以上皆是"],
+        "answer": 3
+      },
+      {
+        "statement": "手術後六星期~三個月的注意事項何者正確？",
+        "options": [
+          "副木穿戴：停止穿戴副木",
+          "運動：不需要穿戴副木動作，開始操作手部被動彎曲、伸直的拉筋運動",
+          "可以使用患側手做事，禁止操作劇烈運動和粗重工作。",
+          "以上皆是"
+        ],
+        "answer": 3
+      }
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "statement": "Erat imperdiet sed euismod nisi porta lorem mollis aliquam. Aenean sed adipiscing",
+        "options": [
+            "diam donec adipiscing tristique risus",
+            "Porttitor rhoncus dolor purus non enim",
+            "Nulla porttitor massa id neque aliquam",
+            "vestibulum morbi blandit cursus"],
+        "answer": 1
+    },
+    {
+        "statement": "2+2=?",
+        "options": ["1", "2", "3", "4"],
+        "answer": 2
+    },
+    {
+        "statement": "3+3=?",
+        "options": ["1", "2", "3", "4"],
+        "answer": 3
+    }
+]
+
