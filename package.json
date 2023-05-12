@@ -15,7 +15,8 @@
     "quasar": "^2.11.10",
     "url": "^0.11.0",
     "vue": "^3.2.47",
-    "vue-router": "4"
+    "vue-router": "4",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@quasar/vite-plugin": "^1.3.1",

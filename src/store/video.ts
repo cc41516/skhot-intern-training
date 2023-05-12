@@ -3,7 +3,7 @@ import { reactive, computed } from "vue";
 import videoJson from "@/assets/questions/Video.json";
 import { range } from "@/utils/common";
 
-interface VideoQuestion {
+export interface VideoQuestion {
   topic: string;
   video: string;
   questions: Array<{
@@ -12,11 +12,11 @@ interface VideoQuestion {
     answer: number;
   }>;
 }
-interface VideoQuestions extends Array<VideoQuestion> {}
+export interface VideoQuestions extends Array<VideoQuestion> {}
 
 const questionsGroups: VideoQuestions = JSON.parse(JSON.stringify(videoJson));
 const _replies: number[][] = range(questionsGroups.length).map((_, quesIndex) =>
-  Array(questionsGroups[quesIndex].questions.length).fill(-1)
+  range(questionsGroups[quesIndex].questions.length).fill(-1)
 );
 const replies = reactive(_replies);
 

@@ -27,7 +27,7 @@
   );
   const matchingStore = useMatchingStore();
   const matchingDoneStatus: boolean[] = range(matchingStore.questionCount).map((q) =>
-    choiceStore.isDone(q)
+    matchingStore.isDone(q)
   );
 
   function enterChoice(index: number) {

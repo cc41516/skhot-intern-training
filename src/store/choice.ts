@@ -3,16 +3,16 @@ import { reactive, computed } from "vue";
 import choiceJson from "@/assets/questions/Choice.json";
 import { range } from "@/utils/common";
 
-interface ChoiceQuestion {
+export interface ChoiceQuestion {
   statement: string;
   options: string[];
   answer: number;
 }
-interface ChoiceQuestions extends Array<ChoiceQuestion> {}
+export interface ChoiceQuestions extends Array<ChoiceQuestion> {}
 
 const questions: ChoiceQuestions = JSON.parse(JSON.stringify(choiceJson));
 const answers: number[] = questions.map((q) => q.answer);
-const replies: number[] = reactive(Array(questions.length).fill(-1)); // default val -1 means not answered
+const replies: number[] = reactive(range(questions.length).fill(-1)); // default val -1 means not answered
 
 export const useChoiceStore = defineStore("choice", () => {
   // Count API

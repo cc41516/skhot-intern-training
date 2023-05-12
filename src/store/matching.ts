@@ -3,25 +3,29 @@ import { reactive, computed } from "vue";
 import matchingJson from "@/assets/questions/Matching.json";
 import { range, sum } from "@/utils/common";
 
-interface MatchingQuestion {
-  statement: string;
-  cases: Array<{
-    image: string;
-    name: string;
-    indications: string[];
-  }>;
+export interface MatchingCase {
+  image: string;
+  name: string;
+  indication: string[];
 }
 
-interface MatchingReply {
-  names: string[];
-  indications: Set<string>[];
+export interface MatchingQuestion {
+  statement: string;
+  cases: MatchingCase[];
+}
+
+export interface MatchingCaseReply {
+  name: string[];
+  indication: string[];
 }
 
 const questions: MatchingQuestion[] = JSON.parse(JSON.stringify(matchingJson));
-const _replies: MatchingReply[] = questions.map((q) => ({
-  names: Array(q.cases.length).fill(""),
-  indications: Array(q.cases.length).fill(new Set()),
-}));
+const _replies: MatchingCaseReply[][] = questions.map((q) =>
+  range(q.cases.length).map(() => ({
+    name: [],
+    indication: [],
+  }))
+);
 const replies = reactive(_replies);
 
 export const useMatchingStore = defineStore("matching", () => {
@@ -31,15 +35,15 @@ export const useMatchingStore = defineStore("matching", () => {
     return questions[index].cases.length;
   }
   function indicationCount(index: number): number {
-    return sum(questions[index].cases.map((q) => q.indications.length));
+    return sum(questions[index].cases.map((q) => q.indication.length));
   }
 
   // Done API
   function isDone(index: number): boolean {
     const blankCount: number = caseCount(index) + indicationCount(index);
     const doneCount: number =
-      replies[index].names.filter((item) => item !== "").length +
-      replies[index].indications.flat().length;
+      replies[index].map((item) => item.name).flat().length +
+      replies[index].map((item) => item.indication).flat().length;
     return blankCount === doneCount;
   }
 
@@ -58,29 +62,23 @@ export const useMatchingStore = defineStore("matching", () => {
     return questions[index];
   }
 
-  function doQuestion(
-    quesIndex: number,
-    caseIndex: number,
-    name?: string,
-    indication?: string
-  ) {
-    if (name !== undefined) {
-      replies[quesIndex].names[caseIndex] = name;
-    }
-    if (indication !== undefined) {
-      replies[quesIndex].indications[caseIndex].add(indication);
-    }
+  function doQuestion(quesIndex: number, reply: MatchingCaseReply[]) {
+    replies[quesIndex] = reply;
   }
 
-  function getReply(index: number): MatchingReply {
-    return replies[index]
+  function getReply(index: number): MatchingCaseReply[] {
+    return replies[index];
   }
 
   // Correct API
   function isCorrect(index: number): boolean {
-    const nameAnswer = questions[index].cases.map(q => q.name)
-    const indicationAnswer = questions[index].cases.map(q => new Set(q.indications))
-    return replies[index].names === nameAnswer && replies[index].indications === indicationAnswer;
+    const nameReply = replies[index].map((q) => new Set(q.name));
+    const nameAnswer = questions[index].cases.map((q) => new Set(q.name));
+    const indicationReply = replies[index].map((q) => new Set(q.indication));
+    const indicationAnswer = questions[index].cases.map(
+      (q) => new Set(q.indication)
+    );
+    return nameReply === nameAnswer && indicationReply === indicationAnswer;
   }
 
   function correctStatus(): boolean[] {
@@ -91,7 +89,6 @@ export const useMatchingStore = defineStore("matching", () => {
     correctStatus().reduce((acc, cur) => acc + Number(cur), 0);
   });
 
-
   return {
     questionCount,
     caseCount,
@@ -100,11 +97,11 @@ export const useMatchingStore = defineStore("matching", () => {
     isDone,
     doneCount,
     isAllDone,
-    
+
     getQuestion,
     doQuestion,
     getReply,
-    
+
     isCorrect,
     correctStatus,
     score,

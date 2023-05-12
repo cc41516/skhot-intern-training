@@ -40,7 +40,7 @@ const routes = [
         },
       },
       {
-        path: "choice:matchingIndex",
+        path: "matching:questionIndex",
         name: "preTestMatching",
         component: QuestionPage,
         props: (route: any) => {

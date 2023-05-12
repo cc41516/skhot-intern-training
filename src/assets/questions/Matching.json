@@ -4,13 +4,13 @@
     "cases": [
       {
         "image": "image1.png",
-        "name": "name",
-        "indications": ["xxx", "yyy"]
+        "name": ["doge"],
+        "indication": ["xxx", "yyy"]
       },
       {
         "image": "image2.png",
-        "name": "name",
-        "indications": ["zzz"]
+        "name": ["dodo"],
+        "indication": ["zzz"]
       }
     ]
   }
