@@ -11,6 +11,22 @@ export function sum(arr: number[]): number {
   return arr.reduce((prev, curr) => prev + curr, 0);
 }
 
+export function shuffle(arr: Array<any>, seed: number = 1) {
+  function random(seed: number): number {
+    let x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }
+
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(random(seed + i) * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+export function getImageUrl(name: string) {
+  return new URL(`../assets/images/${name}`, import.meta.url).href;
+}
+
 export function parseRoute(path: string): any {
   const segments = path.split("/");
   let testPhase: TestPhase;
