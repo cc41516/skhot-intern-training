@@ -3,11 +3,13 @@
     <div class="h2">Pre-Test Map</div>
     <div v-for="(info, groupIndex) in groupsInfo" :key="info.topic">
       <div>{{ info.topic }}</div>
-      <div v-for="(status, quesIndex) in info.doneStatus">
-        <q-btn @click="enterVideo(groupIndex, quesIndex)">
-          <div>Question {{ quesIndex + 1 }} {{ status }}</div>
-        </q-btn>
-      </div>
+      <q-btn label="Video" @click="enterVideo(groupIndex, -1)" />
+      <q-btn
+        v-for="(status, quesIndex) in info.doneStatus"
+        @click="enterVideo(groupIndex, quesIndex)"
+      >
+        <div>Question {{ quesIndex + 1 }} {{ status }}</div>
+      </q-btn>
     </div>
     <q-btn label="submit" @click="enterAnswer" />
   </div>
@@ -31,6 +33,7 @@ const groupsInfo: GroupInfo[] = range(store.groupCount).map((i) => ({
 }));
 
 function enterVideo(groupIndex: number, questionIndex: number) {
+  // if questionIndex == -1, go to watch video
   router.push({
     name: "midTestVideo",
     params: {

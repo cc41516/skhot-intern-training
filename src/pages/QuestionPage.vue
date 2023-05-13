@@ -2,7 +2,12 @@
   <div class="row justify-center q-pt-xl">
     <div class="col-8 q-gutter-lg">
       <div class="row justify-between">
-        <ProgressChip :value="questionIndex + 1" />
+        <!-- questionIndex == -1 means watching video page -->
+        <ProgressChip
+          v-if="questionIndex === -1"
+          :label="`Video ${groupIndex + 1}`"
+        />
+        <ProgressChip v-else :label="`Question ${questionIndex + 1}`" />
         <q-btn flat label="Home" to="/home" />
       </div>
       <div>
@@ -27,26 +32,22 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
-
-import ProgressChip from "@/components/ProgressChip.vue";
 import Stepper from "@/containers/Stepper.vue";
-
 import ChoiceQuestion from "@/containers/ChoiceQuestion.vue";
 import VideoQuestion from "@/containers/VideoQuestion.vue";
 import MatchingQuestion from "@/containers/MatchingQuestion.vue";
 
+import ProgressChip from "@/components/ProgressChip.vue";
 import { QuestionType, TestPhase } from "@/global";
-import { getQuestionCount } from "@/utils/common";
 
 interface Props {
-  testPhase: TestPhase
+  testPhase: TestPhase;
   questionType: QuestionType;
   questionIndex: number;
   groupIndex?: number;
 }
-const props = withDefaults(defineProps<Props>(), {
+
+withDefaults(defineProps<Props>(), {
   groupIndex: 0,
 });
-
 </script>

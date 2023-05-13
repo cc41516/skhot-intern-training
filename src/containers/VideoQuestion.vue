@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-if="questionIndex === 0">
-      <QuestionStatement content="請看完下列影片，再回答後續問題。" />
-      <q-video :src="video" :ratio="16/9"/>
-    </div>
-    <div v-else>
     <QuestionStatement :content="statement" />
-    <ChoiceOptions :options="options" :reply="reply" @select="updateReply" />
-    </div>
+    <q-video v-if="questionIndex === -1" :src="video" :ratio="16 / 9" />
+    <ChoiceOptions
+      v-else
+      :options="options"
+      :reply="reply"
+      @select="updateReply"
+    />
   </div>
 </template>
 
@@ -25,10 +25,16 @@ const props = defineProps<Props>();
 const store = useVideoStore();
 
 const { video } = store.getGroup(props.groupIndex);
-const { statement, options } = store.getQuestion(
-  props.groupIndex,
-  props.questionIndex
-);
+let statement: string = "請看完下列影片，再回答後續問題。"; // watching video
+let options: string[] = [];
+
+if (props.questionIndex >= 0) {
+  // questions
+  ({ statement, options } = store.getQuestion(
+    props.groupIndex,
+    props.questionIndex
+  ));
+}
 
 const reply = computed(() =>
   store.getReply(props.groupIndex, props.questionIndex)

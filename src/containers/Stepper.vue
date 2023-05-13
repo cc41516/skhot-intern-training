@@ -1,8 +1,32 @@
 <template>
   <div class="row justify-end q-gutter-x-md">
-    <q-btn v-if="questionIndex > 0" flat color="secondary" @click="previous"> 上一題 </q-btn>
-    <q-btn v-if="questionIndex < questionCount - 1" unelevated color="secondary" @click="next"> 下一題 </q-btn>
-    <q-btn v-if="questionIndex === questionCount - 1" unelevated color="secondary" @click="done"> 完成 </q-btn>
+    <q-btn
+      v-if="
+        questionIndex > 0 ||
+        (questionIndex == 0 && questionType == QuestionType.Video)
+      "
+      flat
+      color="secondary"
+      @click="previous"
+    >
+      上一題
+    </q-btn>
+    <q-btn
+      v-if="questionIndex < questionCount - 1"
+      unelevated
+      color="secondary"
+      @click="next"
+    >
+      下一題
+    </q-btn>
+    <q-btn
+      v-if="questionIndex === questionCount - 1"
+      unelevated
+      color="secondary"
+      @click="done"
+    >
+      完成
+    </q-btn>
   </div>
 </template>
 
