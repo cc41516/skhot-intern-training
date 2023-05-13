@@ -57,6 +57,10 @@ export const useChoiceStore = defineStore("choice", () => {
     return replies[index];
   }
 
+  function getAnswer(index: number): number {
+    return answers[index]
+  }
+
   return {
     questionCount,
 
@@ -71,5 +75,6 @@ export const useChoiceStore = defineStore("choice", () => {
     getQuestion,
     doQuestion,
     getReply,
+    getAnswer,
   };
 });

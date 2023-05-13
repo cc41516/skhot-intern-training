@@ -9,6 +9,7 @@
         </q-btn>
       </div>
     </div>
+    <q-btn label="submit" @click="enterAnswer" />
   </div>
 </template>
 
@@ -36,6 +37,12 @@ function enterVideo(groupIndex: number, questionIndex: number) {
       groupIndex: groupIndex + 1,
       questionIndex: questionIndex + 1,
     },
+  });
+}
+
+function enterAnswer() {
+  router.push({
+    name: "midTestAnswer",
   });
 }
 </script>

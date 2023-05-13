@@ -90,6 +90,10 @@ export const useVideoStore = defineStore("video", () => {
     return replies[groupIndex][quesIndex];
   }
 
+  function getAnswer(groupIndex: number, quesIndex: number): number {
+    return questionsGroups[groupIndex].questions[quesIndex].answer
+  }
+
   return {
     groupCount,
     groupQuestionCount,
@@ -109,5 +113,6 @@ export const useVideoStore = defineStore("video", () => {
     getQuestion,
     doQuestion,
     getReply,
+    getAnswer,
   };
 });
