@@ -5,12 +5,12 @@
       {
         "image": "bread.png",
         "name": ["doge"],
-        "indication": ["xxx", "yyy", "zzzzzzzzzzzzzz", "66666666666666", "777777777777777777777777777777"]
+        "indication": ["xxx", "zzzzzzzzzzzzzz", "777777777777777777777777777777"]
       },
       {
         "image": "rocket.jpeg",
         "name": ["QQQQQQQQQQQQQQQQQQ"],
-        "indication": ["zzz", "88888888888888888888"]
+        "indication": ["yyy"]
       }
     ]
   }

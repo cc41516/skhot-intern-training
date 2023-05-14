@@ -121,9 +121,9 @@ const dragContainerOptions = {
 const drag = ref(false);
 
 function checkPutName(to: any, from: any) {
-  const fromName = from.options.group.name;
+  const sameGroupName = from.options.group.name == to.options.group.name;
   const toEmpty = !to.el.children.length;
-  return fromName && toEmpty;
+  return sameGroupName && toEmpty;
 }
 
 function getItems(
