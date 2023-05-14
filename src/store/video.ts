@@ -52,7 +52,10 @@ export const useVideoStore = defineStore("video", () => {
   const allDoneCount = computed(() =>
     range(groupCount).reduce((prev, curr) => prev + groupDoneCount(curr), 0)
   );
-  const isAllDone = computed(() => allDoneCount === allQuestionCount);
+
+  const isAllDone = computed(
+    () => allDoneCount.value === allQuestionCount.value
+  );
 
   // Correct API
   function isCorrect(groupIndex: number, quesIndex: number): boolean {
@@ -75,7 +78,7 @@ export const useVideoStore = defineStore("video", () => {
 
   // Question API
   function getGroup(groupIndex: number): VideoQuestion {
-    return questionsGroups[groupIndex];  
+    return questionsGroups[groupIndex];
   }
 
   function getQuestion(groupIndex: number, quesIndex: number) {
@@ -91,7 +94,7 @@ export const useVideoStore = defineStore("video", () => {
   }
 
   function getAnswer(groupIndex: number, quesIndex: number): number {
-    return questionsGroups[groupIndex].questions[quesIndex].answer
+    return questionsGroups[groupIndex].questions[quesIndex].answer;
   }
 
   return {
