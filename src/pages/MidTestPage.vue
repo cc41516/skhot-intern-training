@@ -1,17 +1,47 @@
 <template>
-  <div>
-    <div class="h2">Pre-Test Map</div>
-    <div v-for="(info, groupIndex) in groupsInfo" :key="info.topic">
-      <div>{{ info.topic }}</div>
-      <q-btn label="Video" @click="enterVideo(groupIndex, -1)" />
-      <q-btn
-        v-for="(status, quesIndex) in info.doneStatus"
-        @click="enterVideo(groupIndex, quesIndex)"
-      >
-        <div>Question {{ quesIndex + 1 }} {{ status }}</div>
-      </q-btn>
+  <div class="row justify-center q-my-xl">
+    <div class="col-8 q-gutter-lg">
+      <div class="text-h2 q-py-lg">中間測驗</div>
+      <div class="text-h5 text-bold">看完影片後，回答題組問題：</div>
+
+      <q-list class="shadow-up-1">
+        <q-expansion-item
+          v-for="(info, groupIndex) in groupsInfo"
+          :key="groupIndex"
+        >
+          <template v-slot:header>
+            <q-item-section class="text-h6"> {{ info.topic }} </q-item-section>
+            <q-item-section v-if="store.isGroupDone(groupIndex)" side>
+              <q-icon name="done" color="secondary" />
+            </q-item-section>
+            <q-item-section v-else="store.isGroupDone(groupIndex)" side>
+              未完成
+            </q-item-section>
+          </template>
+          <ProgressOverviewItem
+            @click="enterVideo(groupIndex, -1)"
+            icon="smart_display"
+            label="影片"
+          />
+          <ProgressOverviewItem
+            v-for="(status, quesIndex) in info.doneStatus"
+            @click="enterVideo(groupIndex, quesIndex)"
+            icon="radio_button_checked"
+            :label="`選擇題 ${quesIndex + 1}`"
+            :isDone="status"
+          />
+        </q-expansion-item>
+      </q-list>
+
+      <div class="float-right">
+        <q-btn
+          label="提交"
+          :color="canSubmit ? 'secondary' : 'negative'"
+          @click="enterAnswer"
+          class="q-py-sm"
+        />
+      </div>
     </div>
-    <q-btn label="submit" @click="enterAnswer" />
   </div>
 </template>
 
@@ -19,6 +49,7 @@
 import { useRouter } from "vue-router";
 import { useVideoStore } from "@/store/video";
 import { range } from "@/utils/common";
+import ProgressOverviewItem from "@/components/ProgressOverviewItem.vue";
 
 interface GroupInfo {
   topic: string;
@@ -31,6 +62,7 @@ const groupsInfo: GroupInfo[] = range(store.groupCount).map((i) => ({
   topic: store.getGroup(i).topic,
   doneStatus: range(store.groupQuestionCount(i)).map((q) => store.isDone(i, q)),
 }));
+const canSubmit = store.isAllDone;
 
 function enterVideo(groupIndex: number, questionIndex: number) {
   // if questionIndex == -1, go to watch video

@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center q-pt-xl">
+  <div class="row justify-center q-py-xl">
     <div class="col-8 q-gutter-lg">
       <div class="row justify-between">
         <!-- questionIndex == -1 means watching video page -->
