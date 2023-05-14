@@ -1,5 +1,5 @@
 <template>
-  <q-chip outline square size="lg" color="black" class="cursor-pointer">
+  <q-chip outline square size="lg" class="cursor-pointer">
     {{ label }}
   </q-chip>
 </template>

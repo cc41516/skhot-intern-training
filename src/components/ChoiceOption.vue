@@ -11,7 +11,7 @@
     :class="{ 'selected-button': isSelected }"
   >
     <div class="text-body1 text-weight-regular">
-      <q-avatar color="grey-4" font-size="1.2rem" class="q-mr-xl">{{
+      <q-avatar color="secondary" font-size="1.2rem" class="q-mr-xl">{{
         symbol
       }}</q-avatar>
       {{ content }}
