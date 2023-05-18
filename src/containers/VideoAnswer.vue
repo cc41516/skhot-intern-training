@@ -1,40 +1,37 @@
 <template>
-  <div>
+  <q-expansion-item
+    v-for="(errNums, errG, _index) in errRecord"
+    :key="_index"
+    expand-separator
+    :label="store.getGroup(errG).topic"
+    header-class="text-h6"
+  >
     <q-expansion-item
-      v-for="(errNums, errG, _index) in errRecord"
-      :key="_index"
-      expand-separator
-      :label="store.getGroup(errG).topic"
+      v-for="errNum in errNums"
+      :header-inset-level="0.5"
+      :content-inset-level="1"
+      :label="`Question ${errNum + 1} : ${
+        store.getQuestion(errG, errNum).statement
+      }`"
+      header-class="text-subtitle1"
     >
-      <q-expansion-item
-        v-for="errNum in errNums"
-        :header-inset-level="1"
-        :label="`Question ${errNum + 1} : ${store.getQuestion(errG, errNum).statement}`"
+      <q-list
+        v-for="(option, index) in store.getQuestion(errG, errNum).options"
       >
-        <q-card>
-          <q-card-section v-for="(option, index) in store.getQuestion(errG, errNum).options">
-            {{ option }}
-            <q-icon
-              v-if="index === store.getQuestion(errG, errNum).answer"
-              name="check"
-              size="md"
-              color="positive"
-            />
-            <q-icon
-              v-else-if="index === store.getReply(errG, errNum)"
-              name="close"
-              size="md"
-              color="negative"
-            />
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
+        <AnswerOptionItem
+          :index="index"
+          :option="option"
+          :answer="store.getQuestion(errG, errNum).answer"
+          :reply="store.getReply(errG, errNum)"
+        />
+      </q-list>
     </q-expansion-item>
-  </div>
+  </q-expansion-item>
 </template>
 
 <script setup lang="ts">
 import { useVideoStore } from "@/store/video";
+import AnswerOptionItem from "@/components/AnswerOptionItem.vue";
 
 interface Dict<T> {
   [Key: number]: T;
@@ -54,5 +51,11 @@ for (let i = 0; i < store.groupCount; i++) {
     }
   }
 }
-
 </script>
+
+<style scoped lang="scss">
+.q-item:hover {
+  background-color: $grey-10;
+  transition: color 0.3s, background-color 0.3s;
+}
+</style>

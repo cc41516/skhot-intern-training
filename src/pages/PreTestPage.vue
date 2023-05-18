@@ -1,6 +1,9 @@
 <template>
   <PageWrapper>
-    <div class="text-h2 q-py-lg">前測</div>
+    <div class="row justify-between items-center">
+      <div class="text-h2 q-py-lg">前測</div>
+      <div><q-btn flat label="Home" to="/home" /></div>
+    </div>
     <div class="text-h5 text-bold">請依序完成下列題目：</div>
 
     <q-list class="shadow-up-1">
