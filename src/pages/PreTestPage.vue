@@ -47,7 +47,7 @@ import PageWrapper from "@/containers/PageWrapper.vue";
 import ProgressOverviewItem from "@/components/ProgressOverviewItem.vue";
 
 interface Props {
-  post?: boolean
+  post?: boolean;
 }
 
 const props = defineProps<Props>();
@@ -56,7 +56,9 @@ const choiceStore = props.post ? usePostChoiceStore() : usePreChoiceStore();
 const choiceDoneStatus: boolean[] = range(choiceStore.questionCount).map((q) =>
   choiceStore.isDone(q)
 );
-const matchingStore = props.post ? usePostMatchingStore() : usePreMatchingStore();
+const matchingStore = props.post
+  ? usePostMatchingStore()
+  : usePreMatchingStore();
 const matchingDoneStatus: boolean[] = range(matchingStore.questionCount).map(
   (q) => matchingStore.isDone(q)
 );

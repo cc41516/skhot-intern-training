@@ -1,7 +1,7 @@
 <template>
-    <PreTestPage post />
+  <PreTestPage post />
 </template>
 
 <script setup lang="ts">
-import PreTestPage from './PreTestPage.vue';
+import PreTestPage from "./PreTestPage.vue";
 </script>

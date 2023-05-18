@@ -10,17 +10,17 @@
       <q-btn flat label="Home" to="/home" />
     </div>
     <div>
-      <ChoiceQuestion
+      <QuestionChoice
         v-if="questionType === QuestionType.Choice"
         :question-index="questionIndex"
         :post="testPhase === TestPhase.Post"
       />
-      <VideoQuestion
+      <QuestionVideo
         v-else-if="questionType === QuestionType.Video"
         :group-index="groupIndex"
         :question-index="questionIndex"
       />
-      <MatchingQuestion
+      <QuestionMatching
         v-else-if="questionType === QuestionType.Matching"
         :question-index="questionIndex"
         :post="testPhase === TestPhase.Post"
@@ -34,9 +34,9 @@
 <script setup lang="ts">
 import PageWrapper from "@/containers/PageWrapper.vue";
 import Stepper from "@/containers/Stepper.vue";
-import ChoiceQuestion from "@/containers/ChoiceQuestion.vue";
-import VideoQuestion from "@/containers/VideoQuestion.vue";
-import MatchingQuestion from "@/containers/MatchingQuestion.vue";
+import QuestionChoice from "@/containers/QuestionChoice.vue";
+import QuestionVideo from "@/containers/QuestionVideo.vue";
+import QuestionMatching from "@/containers/QuestionMatching.vue";
 import ProgressChip from "@/components/ProgressChip.vue";
 import { QuestionType, TestPhase } from "@/global";
 

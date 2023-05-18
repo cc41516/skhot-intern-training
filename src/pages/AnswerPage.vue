@@ -8,24 +8,24 @@
     <div class="text-h5 text-bold">以下為錯誤題目：</div>
 
     <div v-if="testPhase === TestPhase.Pre">
-      <ChoiceAnswer />
-      <MatchingAnswer/>
+      <AnswerChoice />
+      <AnswerMatching/>
     </div>
     <div v-if="testPhase === TestPhase.Mid">
-      <VideoAnswer />
+      <AnswerVideo />
     </div>
     <div v-if="testPhase === TestPhase.Post">
-      <ChoiceAnswer post />
-      <MatchingAnswer post />
+      <AnswerChoice post />
+      <AnswerMatching post />
     </div>
   </PageWrapper>
 </template>
 
 <script setup lang="ts">
 import { TestPhase } from "@/global";
-import ChoiceAnswer from "@/containers/ChoiceAnswer.vue";
-import VideoAnswer from "@/containers/VideoAnswer.vue";
-import MatchingAnswer from "@/containers/MatchingAnswer.vue";
+import AnswerChoice from "@/containers/AnswerChoice.vue";
+import AnswerVideo from "@/containers/AnswerVideo.vue";
+import AnswerMatching from "@/containers/AnswerMatching.vue";
 import PageWrapper from "@/containers/PageWrapper.vue";
 
 interface Props {
