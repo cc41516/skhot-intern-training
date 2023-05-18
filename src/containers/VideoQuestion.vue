@@ -2,7 +2,7 @@
   <div>
     <QuestionStatement :content="statement" />
     <q-video v-if="questionIndex === -1" :src="video" :ratio="16 / 9" />
-    <ChoiceOptions
+    <QuestionChoiceOptions
       v-else
       :options="options"
       :reply="reply"
@@ -15,7 +15,7 @@
 import { computed } from "vue";
 import { useVideoStore } from "@/store/video";
 import QuestionStatement from "@/components/QuestionStatement.vue";
-import ChoiceOptions from "@/components/ChoiceOptions.vue";
+import QuestionChoiceOptions from "@/components/QuestionChoiceOptions.vue";
 
 interface Props {
   groupIndex: number;

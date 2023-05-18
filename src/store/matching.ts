@@ -6,7 +6,7 @@ import { TestPhase } from "@/global";
 
 export interface MatchingCase {
   image: string;
-  name: string;
+  name: string[];
   indication: string[];
 }
 
@@ -26,7 +26,7 @@ const postReplies = reactive(createReply());
 
 function createReply(): MatchingCaseReply[][] {
   return questions.map((q) =>
-    range(q.cases.length).map(() => ({
+    q.cases.map(() => ({
       name: [],
       indication: [],
     }))
@@ -76,6 +76,13 @@ function createMatchingStore(replies: MatchingCaseReply[][]) {
   }
 
   // Correct API
+  function getAnswer(index: number): MatchingCaseReply[] {
+    return questions[index].cases.map((c) => ({
+      name: [c.name[0]],
+      indication: c.indication,
+    }));
+  }
+
   function isCorrect(index: number): boolean {
     const nameReply = replies[index].map((q) => new Set(q.name));
     const nameAnswer = questions[index].cases.map((q) => new Set(q.name));
@@ -107,6 +114,7 @@ function createMatchingStore(replies: MatchingCaseReply[][]) {
     doQuestion,
     getReply,
 
+    getAnswer,
     isCorrect,
     correctStatus,
     score,

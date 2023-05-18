@@ -4,11 +4,11 @@
     :key="i"
     expand-separator
     :content-inset-level="0.5"
-    :label="`Question ${errNum + 1} : ${errQuestions[i].statement}`"
+    :label="`選擇題 ${errNum + 1} : ${errQuestions[i].statement}`"
     header-class="text-h6"
   >
     <q-list v-for="(option, index) in errQuestions[i].options">
-      <AnswerOptionItem
+      <AnswerChoiceOption
         :index="index"
         :option="option"
         :answer="errQuestions[i].answer"
@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { usePreChoiceStore, usePostChoiceStore } from "@/store/choice";
 import { range } from "@/utils/common";
-import AnswerOptionItem from "@/components/AnswerOptionItem.vue";
+import AnswerChoiceOption from "@/components/AnswerChoiceOption.vue";
 
 interface Props {
   post?: boolean;

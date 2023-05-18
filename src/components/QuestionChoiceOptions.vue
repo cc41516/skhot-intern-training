@@ -1,6 +1,6 @@
 <template>
   <div class="column q-gutter-y-lg">
-    <ChoiceOption
+    <QuestionChoiceOption
       v-for="(option, index) in options"
       :content="option"
       :index="index"
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import ChoiceOption from "@/components/ChoiceOption.vue";
+import QuestionChoiceOption from "@/components/QuestionChoiceOption.vue";
 
 interface Props {
   options: string[];

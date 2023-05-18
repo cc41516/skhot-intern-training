@@ -1,7 +1,7 @@
 <template>
   <div>
     <QuestionStatement :content="statement" />
-    <MatchingTable :cases="cases" :reply="reply" @select="updateReply" />
+    <QuestionMatchingTable :cases="cases" :reply="reply" @select="updateReply" />
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import { computed } from "vue";
 import { usePreMatchingStore, usePostMatchingStore, MatchingCaseReply } from "@/store/matching";
 import QuestionStatement from "@/components/QuestionStatement.vue";
-import MatchingTable from "@/components/MatchingTable.vue";
+import QuestionMatchingTable from "@/components/QuestionMatchingTable.vue";
 
 interface Props {
   questionIndex: number;

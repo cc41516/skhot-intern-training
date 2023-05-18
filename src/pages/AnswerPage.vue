@@ -9,12 +9,14 @@
 
     <div v-if="testPhase === TestPhase.Pre">
       <ChoiceAnswer />
+      <MatchingAnswer/>
     </div>
     <div v-if="testPhase === TestPhase.Mid">
       <VideoAnswer />
     </div>
     <div v-if="testPhase === TestPhase.Post">
       <ChoiceAnswer post />
+      <MatchingAnswer post />
     </div>
   </PageWrapper>
 </template>
@@ -23,6 +25,7 @@
 import { TestPhase } from "@/global";
 import ChoiceAnswer from "@/containers/ChoiceAnswer.vue";
 import VideoAnswer from "@/containers/VideoAnswer.vue";
+import MatchingAnswer from "@/containers/MatchingAnswer.vue";
 import PageWrapper from "@/containers/PageWrapper.vue";
 
 interface Props {

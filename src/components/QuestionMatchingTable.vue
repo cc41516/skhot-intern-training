@@ -142,6 +142,10 @@ function updateReply() {
 </script>
 
 <style scoped lang="scss">
+.q-table tbody td:before {
+  background: none;
+}
+
 .ghost {
   opacity: 0.5;
 }

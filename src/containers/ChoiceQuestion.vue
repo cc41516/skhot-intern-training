@@ -1,7 +1,7 @@
 <template>
   <div>
     <QuestionStatement :content="statement" />
-    <ChoiceOptions :options="options" :reply="reply" @select="updateReply" />
+    <QuestionChoiceOptions :options="options" :reply="reply" @select="updateReply" />
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import { computed } from "vue";
 import { usePreChoiceStore, usePostChoiceStore } from "@/store/choice";
 import QuestionStatement from "@/components/QuestionStatement.vue";
-import ChoiceOptions from "@/components/ChoiceOptions.vue";
+import QuestionChoiceOptions from "@/components/QuestionChoiceOptions.vue";
 
 interface Props {
   questionIndex: number;

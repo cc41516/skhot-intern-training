@@ -18,7 +18,7 @@
       <q-list
         v-for="(option, index) in store.getQuestion(errG, errNum).options"
       >
-        <AnswerOptionItem
+        <AnswerChoiceOption
           :index="index"
           :option="option"
           :answer="store.getQuestion(errG, errNum).answer"
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { useVideoStore } from "@/store/video";
-import AnswerOptionItem from "@/components/AnswerOptionItem.vue";
+import AnswerChoiceOption from "@/components/AnswerChoiceOption.vue";
 
 interface Dict<T> {
   [Key: number]: T;
