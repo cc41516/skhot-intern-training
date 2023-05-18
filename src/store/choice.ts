@@ -12,9 +12,10 @@ export interface ChoiceQuestions extends Array<ChoiceQuestion> {}
 
 const questions: ChoiceQuestions = JSON.parse(JSON.stringify(choiceJson));
 const answers: number[] = questions.map((q) => q.answer);
-const replies: number[] = reactive(range(questions.length).fill(-1)); // default val -1 means not answered
+const preReplies: number[] = reactive(range(questions.length).fill(-1)); // default val -1 means not answered
+const postReplies: number[] = reactive(range(questions.length).fill(-1)); // default val -1 means not answered
 
-export const useChoiceStore = defineStore("choice", () => {
+function createChoiceStore(replies: number[]) {
   // Count API
   const questionCount: number = questions.length;
 
@@ -58,7 +59,7 @@ export const useChoiceStore = defineStore("choice", () => {
   }
 
   function getAnswer(index: number): number {
-    return answers[index]
+    return answers[index];
   }
 
   return {
@@ -77,4 +78,7 @@ export const useChoiceStore = defineStore("choice", () => {
     getReply,
     getAnswer,
   };
-});
+}
+
+export const usePreChoiceStore = defineStore("preChoice", () => createChoiceStore(preReplies));
+export const usePostChoiceStore = defineStore("postChoice", () => createChoiceStore(postReplies));

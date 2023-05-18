@@ -1,3 +1,7 @@
 <template>
-    <div>Post-Test Map</div>
+    <PreTestPage post />
 </template>
+
+<script setup lang="ts">
+import PreTestPage from './PreTestPage.vue';
+</script>

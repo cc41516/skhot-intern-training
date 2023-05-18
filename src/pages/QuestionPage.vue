@@ -13,6 +13,7 @@
       <ChoiceQuestion
         v-if="questionType === QuestionType.Choice"
         :question-index="questionIndex"
+        :post="testPhase === TestPhase.Post"
       />
       <VideoQuestion
         v-else-if="questionType === QuestionType.Video"
@@ -22,6 +23,7 @@
       <MatchingQuestion
         v-else-if="questionType === QuestionType.Matching"
         :question-index="questionIndex"
+        :post="testPhase === TestPhase.Post"
       />
     </div>
     <q-separator />

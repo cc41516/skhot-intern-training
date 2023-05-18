@@ -1,6 +1,6 @@
 import { QuestionType, QuestionInfo, TestPhase } from "@/global";
-import { useChoiceStore } from "@/store/choice";
-import { useMatchingStore } from "@/store/matching";
+import { usePreChoiceStore } from "@/store/choice";
+import { usePreMatchingStore } from "@/store/matching";
 import { useVideoStore } from "@/store/video";
 
 export function range(n: number): number[] {
@@ -71,8 +71,8 @@ export function getQuestionCount(
   questionType: QuestionType,
   groupIndex: number | undefined = 0
 ): number {
-  const choiceStore = useChoiceStore();
-  const matchingStore = useMatchingStore();
+  const choiceStore = usePreChoiceStore();
+  const matchingStore = usePreMatchingStore();
   const videoStore = useVideoStore();
 
   switch (questionType) {

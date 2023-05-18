@@ -13,6 +13,9 @@
     <div v-if="testPhase === TestPhase.Mid">
       <VideoAnswer />
     </div>
+    <div v-if="testPhase === TestPhase.Post">
+      <ChoiceAnswer post />
+    </div>
   </PageWrapper>
 </template>
 

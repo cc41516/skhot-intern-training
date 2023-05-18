@@ -19,11 +19,15 @@
 </template>
 
 <script setup lang="ts">
-import { useChoiceStore } from "@/store/choice";
+import { usePreChoiceStore, usePostChoiceStore } from "@/store/choice";
 import { range } from "@/utils/common";
 import AnswerOptionItem from "@/components/AnswerOptionItem.vue";
 
-const store = useChoiceStore();
+interface Props {
+  post?: boolean;
+}
+const props = defineProps<Props>();
+const store = props.post ? usePostChoiceStore() : usePreChoiceStore();
 const errRecord: number[] = range(store.questionCount).filter(
   (q) => !store.isCorrect(q)
 );

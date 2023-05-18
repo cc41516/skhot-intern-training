@@ -97,6 +97,7 @@ const routes = [
     children: [
       {
         path: "",
+        name: "postTest",
         component: PostTestPage,
       },
       {
@@ -127,6 +128,7 @@ const routes = [
         path: "answer",
         name: "postTestAnswer",
         component: AnswerPage,
+        props: () => ({ testPhase: TestPhase.Post }),
       },
     ],
   },

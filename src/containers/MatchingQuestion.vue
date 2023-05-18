@@ -7,15 +7,16 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useMatchingStore, MatchingCaseReply } from "@/store/matching";
+import { usePreMatchingStore, usePostMatchingStore, MatchingCaseReply } from "@/store/matching";
 import QuestionStatement from "@/components/QuestionStatement.vue";
 import MatchingTable from "@/components/MatchingTable.vue";
 
 interface Props {
   questionIndex: number;
+  post?: boolean;
 }
 const props = defineProps<Props>();
-const store = useMatchingStore();
+const store = props.post ? usePostMatchingStore() : usePreMatchingStore();
 
 const { statement, cases } = store.getQuestion(props.questionIndex)
 const reply = computed(() => store.getReply(props.questionIndex));

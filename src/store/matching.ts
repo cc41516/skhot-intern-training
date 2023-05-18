@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { reactive, computed } from "vue";
 import matchingJson from "@/assets/questions/Matching.json";
 import { range, sum } from "@/utils/common";
+import { TestPhase } from "@/global";
 
 export interface MatchingCase {
   image: string;
@@ -20,15 +21,19 @@ export interface MatchingCaseReply {
 }
 
 const questions: MatchingQuestion[] = JSON.parse(JSON.stringify(matchingJson));
-const _replies: MatchingCaseReply[][] = questions.map((q) =>
-  range(q.cases.length).map(() => ({
-    name: [],
-    indication: [],
-  }))
-);
-const replies = reactive(_replies);
+const preReplies = reactive(createReply());
+const postReplies = reactive(createReply());
 
-export const useMatchingStore = defineStore("matching", () => {
+function createReply(): MatchingCaseReply[][] {
+  return questions.map((q) =>
+    range(q.cases.length).map(() => ({
+      name: [],
+      indication: [],
+    }))
+  );
+}
+
+function createMatchingStore(replies: MatchingCaseReply[][]) {
   // Count API
   const questionCount: number = questions.length;
   function caseCount(index: number): number {
@@ -106,4 +111,11 @@ export const useMatchingStore = defineStore("matching", () => {
     correctStatus,
     score,
   };
-});
+}
+
+export const usePreMatchingStore = defineStore("preMatching", () =>
+  createMatchingStore(preReplies)
+);
+export const usePostMatchingStore = defineStore("postMatching", () =>
+  createMatchingStore(postReplies)
+);

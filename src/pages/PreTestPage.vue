@@ -1,7 +1,7 @@
 <template>
   <PageWrapper>
     <div class="row justify-between items-center">
-      <div class="text-h2 q-py-lg">前測</div>
+      <div class="text-h2 q-py-lg">{{ post ? "後測" : "前測" }}</div>
       <div><q-btn flat label="Home" to="/home" /></div>
     </div>
     <div class="text-h5 text-bold">請依序完成下列題目：</div>
@@ -40,18 +40,23 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { useChoiceStore } from "@/store/choice";
-import { useMatchingStore } from "@/store/matching";
+import { usePreChoiceStore, usePostChoiceStore } from "@/store/choice";
+import { usePreMatchingStore, usePostMatchingStore } from "@/store/matching";
 import { range } from "@/utils/common";
 import PageWrapper from "@/containers/PageWrapper.vue";
 import ProgressOverviewItem from "@/components/ProgressOverviewItem.vue";
 
+interface Props {
+  post?: boolean
+}
+
+const props = defineProps<Props>();
 const router = useRouter();
-const choiceStore = useChoiceStore();
+const choiceStore = props.post ? usePostChoiceStore() : usePreChoiceStore();
 const choiceDoneStatus: boolean[] = range(choiceStore.questionCount).map((q) =>
   choiceStore.isDone(q)
 );
-const matchingStore = useMatchingStore();
+const matchingStore = props.post ? usePostMatchingStore() : usePreMatchingStore();
 const matchingDoneStatus: boolean[] = range(matchingStore.questionCount).map(
   (q) => matchingStore.isDone(q)
 );
@@ -59,7 +64,7 @@ const canSubmit: boolean = choiceStore.isAllDone && matchingStore.isAllDone;
 
 function enterChoice(index: number) {
   router.push({
-    name: "preTestChoice",
+    name: props.post ? "postTestChoice" : "preTestChoice",
     params: {
       questionIndex: index + 1,
     },
@@ -68,7 +73,7 @@ function enterChoice(index: number) {
 
 function enterMatching(index: number) {
   router.push({
-    name: "preTestMatching",
+    name: props.post ? "postTestMatching" : "preTestMatching",
     params: {
       questionIndex: index + 1,
     },
@@ -77,7 +82,7 @@ function enterMatching(index: number) {
 
 function enterAnswer() {
   router.push({
-    name: "preTestAnswer",
+    name: props.post ? "postTestAnswer" : "preTestAnswer",
   });
 }
 </script>

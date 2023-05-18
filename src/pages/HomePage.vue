@@ -4,6 +4,7 @@
     <q-input outlined v-model="name" label="請輸入姓名" />
     <q-btn unelevated label="前測" @click="startTest" />
     <q-btn unelevated label="影片題組" @click="startMidTest" />
+    <q-btn unelevated label="後測" @click="startPostTest" />
   </div>
 </template>
 
@@ -20,5 +21,9 @@ function startTest() {
 
 function startMidTest() {
   router.push({ name: "midTest" });
+}
+
+function startPostTest() {
+  router.push({ name: "postTest" });
 }
 </script>
