@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import matchingJson from "@/assets/questions/Matching.json";
 import { range, sum } from "@/utils/common";
-import { TestPhase } from "@/global";
 
 export interface MatchingCase {
   image: string;
@@ -21,8 +20,6 @@ export interface MatchingCaseReply {
 }
 
 const questions: MatchingQuestion[] = JSON.parse(JSON.stringify(matchingJson));
-const preReplies = reactive(createReply());
-const postReplies = reactive(createReply());
 
 function createReply(): MatchingCaseReply[][] {
   return questions.map((q) =>
@@ -33,7 +30,11 @@ function createReply(): MatchingCaseReply[][] {
   );
 }
 
-function createMatchingStore(replies: MatchingCaseReply[][]) {
+function createMatchingStore() {
+  // Define main variables
+  const _replies: MatchingCaseReply[][] = reactive(createReply());
+  const _isSubmitted = ref(false);
+
   // Count API
   const questionCount: number = questions.length;
   function caseCount(index: number): number {
@@ -47,8 +48,8 @@ function createMatchingStore(replies: MatchingCaseReply[][]) {
   function isDone(index: number): boolean {
     const blankCount: number = caseCount(index) + indicationCount(index);
     const doneCount: number =
-      replies[index].map((item) => item.name).flat().length +
-      replies[index].map((item) => item.indication).flat().length;
+      _replies[index].map((item) => item.name).flat().length +
+      _replies[index].map((item) => item.indication).flat().length;
     return blankCount === doneCount;
   }
 
@@ -68,11 +69,12 @@ function createMatchingStore(replies: MatchingCaseReply[][]) {
   }
 
   function doQuestion(quesIndex: number, reply: MatchingCaseReply[]) {
-    replies[quesIndex] = reply;
+    if (_isSubmitted.value) return;
+    _replies[quesIndex] = reply;
   }
 
   function getReply(index: number): MatchingCaseReply[] {
-    return replies[index];
+    return _replies[index];
   }
 
   // Correct API
@@ -84,22 +86,30 @@ function createMatchingStore(replies: MatchingCaseReply[][]) {
   }
 
   function isCorrect(index: number): boolean {
-    const nameReply = replies[index].map((q) => new Set(q.name));
+    const nameReply = _replies[index].map((q) => new Set(q.name));
     const nameAnswer = questions[index].cases.map((q) => new Set(q.name));
-    const indicationReply = replies[index].map((q) => new Set(q.indication));
+    const indicationReply = _replies[index].map((q) => new Set(q.indication));
     const indicationAnswer = questions[index].cases.map(
       (q) => new Set(q.indication)
     );
     return nameReply === nameAnswer && indicationReply === indicationAnswer;
   }
 
-  function correctStatus(): boolean[] {
-    return range(questionCount).map((i) => isCorrect(i));
+  const score = computed(() => {
+    let score = 0;
+    range(questionCount).map((i) => {
+      if (isDone(i) && isCorrect(i)) score++;
+    });
+    return score;
+  });
+
+  // Submit API
+  const isSubmitted = computed(() => _isSubmitted.value)
+  
+  function submit() {
+    _isSubmitted.value = true;
   }
 
-  const score = computed(() => {
-    correctStatus().reduce((acc, cur) => acc + Number(cur), 0);
-  });
 
   return {
     questionCount,
@@ -116,14 +126,16 @@ function createMatchingStore(replies: MatchingCaseReply[][]) {
 
     getAnswer,
     isCorrect,
-    correctStatus,
     score,
+
+    isSubmitted,
+    submit,
   };
 }
 
 export const usePreMatchingStore = defineStore("preMatching", () =>
-  createMatchingStore(preReplies)
+  createMatchingStore()
 );
 export const usePostMatchingStore = defineStore("postMatching", () =>
-  createMatchingStore(postReplies)
+  createMatchingStore()
 );

@@ -13,14 +13,13 @@
           <img :src="images[index]" class="full-width" />
         </td>
         <td class="col-3 scroll hide-scrollbar">
-          <MatchingChip :label="caseReply.name[0]" no-pointer />
+          <MatchingChip :label="caseReply.name[0]" />
         </td>
         <td class="col-6 column items-start scroll hide-scrollbar">
           <MatchingChip
             v-for="indication in caseReply.indication"
             :key="indication"
             :label="indication"
-            no-pointer
           />
         </td>
       </tr>

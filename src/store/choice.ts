@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import choiceJson from "@/assets/questions/Choice.json";
 import { range } from "@/utils/common";
 
@@ -12,16 +12,18 @@ export interface ChoiceQuestions extends Array<ChoiceQuestion> {}
 
 const questions: ChoiceQuestions = JSON.parse(JSON.stringify(choiceJson));
 const answers: number[] = questions.map((q) => q.answer);
-const preReplies: number[] = reactive(range(questions.length).fill(-1)); // default val -1 means not answered
-const postReplies: number[] = reactive(range(questions.length).fill(-1)); // default val -1 means not answered
 
-function createChoiceStore(replies: number[]) {
+function createChoiceStore() {
+  // Define main variables
+  const _replies: number[] = reactive(range(questions.length).fill(-1));
+  const _isSubmitted = ref(false);
+
   // Count API
   const questionCount: number = questions.length;
 
   // Done API
   function isDone(index: number): boolean {
-    return replies[index] !== -1;
+    return _replies[index] !== -1;
   }
   const doneCount = computed(() => {
     let count = 0;
@@ -34,15 +36,15 @@ function createChoiceStore(replies: number[]) {
 
   // Correct API
   function isCorrect(index: number): boolean {
-    return replies[index] === answers[index];
-  }
-
-  function correctStatus(): boolean[] {
-    return range(questionCount).map((i) => isCorrect(i));
+    return _replies[index] === answers[index];
   }
 
   const score = computed(() => {
-    correctStatus().reduce((acc, cur) => acc + Number(cur), 0);
+    let score = 0;
+    range(questionCount).map((i) => {
+      if (isDone(i) && isCorrect(i)) score++;
+    });
+    return score;
   });
 
   // Question API
@@ -51,15 +53,23 @@ function createChoiceStore(replies: number[]) {
   }
 
   function doQuestion(index: number, reply: number) {
-    replies[index] = reply;
+    if (_isSubmitted.value) return;
+    _replies[index] = reply;
   }
 
   function getReply(index: number): number {
-    return replies[index];
+    return _replies[index];
   }
 
   function getAnswer(index: number): number {
     return answers[index];
+  }
+
+  // Submit API
+  const isSubmitted = computed(() => _isSubmitted.value)
+
+  function submit() {
+    _isSubmitted.value = true;
   }
 
   return {
@@ -70,15 +80,21 @@ function createChoiceStore(replies: number[]) {
     isAllDone,
 
     isCorrect,
-    correctStatus,
     score,
 
     getQuestion,
     doQuestion,
     getReply,
     getAnswer,
+
+    isSubmitted,
+    submit,
   };
 }
 
-export const usePreChoiceStore = defineStore("preChoice", () => createChoiceStore(preReplies));
-export const usePostChoiceStore = defineStore("postChoice", () => createChoiceStore(postReplies));
+export const usePreChoiceStore = defineStore("preChoice", () =>
+  createChoiceStore()
+);
+export const usePostChoiceStore = defineStore("postChoice", () =>
+  createChoiceStore()
+);

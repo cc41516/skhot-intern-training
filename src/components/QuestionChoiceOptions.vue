@@ -5,6 +5,7 @@
       :content="option"
       :index="index"
       :reply="reply"
+      :answer="answer"
       @select="updateReply"
     />
   </div>
@@ -12,10 +13,12 @@
 
 <script setup lang="ts">
 import QuestionChoiceOption from "@/components/QuestionChoiceOption.vue";
+import { ChoiceAnswer } from "@/global"
 
 interface Props {
   options: string[];
   reply: number;
+  answer: ChoiceAnswer;
 }
 const props = defineProps<Props>();
 const emit = defineEmits<{

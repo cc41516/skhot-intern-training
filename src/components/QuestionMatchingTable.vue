@@ -25,7 +25,7 @@
             v-bind="dragContainerOptions"
           >
             <template #item="{ element }">
-              <MatchingChip :label="element" />
+              <MatchingChip :label="element" v-bind="{draggable: !isSubmitted}"/>
             </template>
           </draggable>
           <draggable
@@ -39,7 +39,7 @@
             v-bind="dragContainerOptions"
           >
             <template #item="{ element }">
-              <MatchingChip :label="element" />
+              <MatchingChip :label="element" v-bind="{draggable: !isSubmitted}"/>
             </template>
           </draggable>
         </tr>
@@ -55,7 +55,7 @@
         class="col-11 q-my-lg"
       >
         <template #item="{ element }">
-          <MatchingChip :label="element" />
+          <MatchingChip :label="element" v-bind="{draggable: !isSubmitted}"/>
         </template>
       </draggable>
       <div class="col-1 text-h6">適應症</div>
@@ -66,7 +66,7 @@
         class="col-11 q-my-lg"
       >
         <template #item="{ element }">
-          <MatchingChip :label="element" />
+          <MatchingChip :label="element" v-bind="{draggable: !isSubmitted}"/>
         </template>
       </draggable>
     </div>
@@ -83,6 +83,7 @@ import { shuffle, getImageUrl } from "@/utils/common.ts";
 interface Props {
   cases: MatchingCase[];
   reply: MatchingCaseReply[];
+  isSubmitted: boolean;
 }
 
 const props = defineProps<Props>();

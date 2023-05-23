@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import videoJson from "@/assets/questions/Video.json";
 import { range } from "@/utils/common";
 
@@ -15,12 +15,15 @@ export interface VideoQuestion {
 export interface VideoQuestions extends Array<VideoQuestion> {}
 
 const questionsGroups: VideoQuestions = JSON.parse(JSON.stringify(videoJson));
-const _replies: number[][] = range(questionsGroups.length).map((_, quesIndex) =>
-  range(questionsGroups[quesIndex].questions.length).fill(-1)
+const _initReplies: number[][] = range(questionsGroups.length).map(
+  (_, quesIndex) => range(questionsGroups[quesIndex].questions.length).fill(-1)
 );
-const replies = reactive(_replies);
 
 export const useVideoStore = defineStore("video", () => {
+  // Define main variables
+  const _replies = reactive(_initReplies);
+  const _isSubmitted = ref(false);
+
   // Count API
   const groupCount: number = questionsGroups.length;
 
@@ -35,7 +38,7 @@ export const useVideoStore = defineStore("video", () => {
 
   // Done API
   function isDone(groupIndex: number, quesIndex: number): boolean {
-    return replies[groupIndex][quesIndex] !== -1;
+    return _replies[groupIndex][quesIndex] !== -1;
   }
 
   function groupDoneCount(groupIndex: number): number {
@@ -60,15 +63,15 @@ export const useVideoStore = defineStore("video", () => {
   // Correct API
   function isCorrect(groupIndex: number, quesIndex: number): boolean {
     return (
-      replies[groupIndex][quesIndex] ===
+      _replies[groupIndex][quesIndex] ===
       questionsGroups[groupIndex].questions[quesIndex].answer
     );
   }
 
   function groupScore(groupIndex: number): number {
     let score = 0;
-    replies[groupIndex].forEach((i) => {
-      if (isCorrect(groupIndex, i)) score++;
+    range(groupQuestionCount(groupIndex)).map((i) => {
+      if (isDone(groupIndex, i) && isCorrect(groupIndex, i)) score++;
     });
     return score;
   }
@@ -86,15 +89,25 @@ export const useVideoStore = defineStore("video", () => {
   }
 
   function doQuestion(groupIndex: number, quesIndex: number, reply: number) {
-    replies[groupIndex][quesIndex] = reply;
+    _replies[groupIndex][quesIndex] = reply;
   }
 
   function getReply(groupIndex: number, quesIndex: number): number {
-    return replies[groupIndex][quesIndex];
+    return _replies[groupIndex][quesIndex];
   }
 
   function getAnswer(groupIndex: number, quesIndex: number): number {
+    if (quesIndex === -1) { // watching video
+      return -1;
+    }
     return questionsGroups[groupIndex].questions[quesIndex].answer;
+  }
+
+  // Submit API
+  const isSubmitted = computed(() => _isSubmitted.value);
+
+  function submit() {
+    _isSubmitted.value = true;
   }
 
   return {
@@ -117,5 +130,8 @@ export const useVideoStore = defineStore("video", () => {
     doQuestion,
     getReply,
     getAnswer,
+
+    isSubmitted,
+    submit,
   };
 });

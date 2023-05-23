@@ -3,9 +3,17 @@
     v-for="(errNums, errG, _index) in errRecord"
     :key="_index"
     expand-separator
-    :label="store.getGroup(errG).topic"
-    header-class="text-h6"
   >
+    <template v-slot:header>
+      <q-item-section class="text-h6">
+        {{ store.getGroup(errG).topic }}
+      </q-item-section>
+      <q-item-section side class="text-subtitle1">
+        得分：{{
+          `${store.groupScore(errG)} / ${store.groupQuestionCount(errG)}`
+        }}
+      </q-item-section>
+    </template>
     <q-expansion-item
       v-for="errNum in errNums"
       :header-inset-level="0.5"

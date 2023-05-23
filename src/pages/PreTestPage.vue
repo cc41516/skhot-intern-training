@@ -8,21 +8,25 @@
 
     <q-list class="shadow-up-1">
       <ProgressOverviewItem
-        v-for="(status, index) in choiceDoneStatus"
+        v-for="index in range(choiceStore.questionCount)"
         :key="index"
         @click="enterChoice(index)"
         icon="radio_button_checked"
         :label="`選擇題 ${index + 1}`"
-        :isDone="status"
+        :isDone="choiceStore.isDone(index)"
+        :isCorrect="choiceStore.isCorrect(index)"
+        :isSubmitted="choiceStore.isSubmitted"
       />
 
       <ProgressOverviewItem
-        v-for="(status, index) in matchingDoneStatus"
+        v-for="index in range(matchingStore.questionCount)"
         :key="index"
         @click="enterMatching(index)"
         icon="swap_horiz"
         :label="`配合題 ${index + 1}`"
-        :isDone="status"
+        :isDone="matchingStore.isDone(index)"
+        :isCorrect="matchingStore.isCorrect(index)"
+        :isSubmitted="matchingStore.isSubmitted"
         :iconProps="{ size: 'lg' }"
       />
     </q-list>
@@ -44,7 +48,7 @@ import { usePreChoiceStore, usePostChoiceStore } from "@/store/choice";
 import { usePreMatchingStore, usePostMatchingStore } from "@/store/matching";
 import { range } from "@/utils/common";
 import PageWrapper from "@/containers/PageWrapper.vue";
-import ProgressOverviewItem from "@/components/ProgressOverviewItem.vue";
+import ProgressOverviewItem from "@/containers/ProgressOverviewItem.vue";
 
 interface Props {
   post?: boolean;
@@ -53,15 +57,9 @@ interface Props {
 const props = defineProps<Props>();
 const router = useRouter();
 const choiceStore = props.post ? usePostChoiceStore() : usePreChoiceStore();
-const choiceDoneStatus: boolean[] = range(choiceStore.questionCount).map((q) =>
-  choiceStore.isDone(q)
-);
 const matchingStore = props.post
   ? usePostMatchingStore()
   : usePreMatchingStore();
-const matchingDoneStatus: boolean[] = range(matchingStore.questionCount).map(
-  (q) => matchingStore.isDone(q)
-);
 const canSubmit: boolean = choiceStore.isAllDone && matchingStore.isAllDone;
 
 function enterChoice(index: number) {
@@ -83,6 +81,8 @@ function enterMatching(index: number) {
 }
 
 function enterAnswer() {
+  choiceStore.submit();
+  matchingStore.submit();
   router.push({
     name: props.post ? "postTestAnswer" : "preTestAnswer",
   });
