@@ -11,7 +11,7 @@
     :class="{
       'selected-option': isSelected && answer.hide,
       'wrong-option': showWrong,
-      'correct-option': showCorrect,
+      'correct-option': showCorrect && reply === answer.answer,
     }"
   >
     <div class="text-body1 text-weight-regular">
