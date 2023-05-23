@@ -6,6 +6,9 @@
     </div>
     <div class="text-h5 text-bold">請依序完成下列題目：</div>
 
+    <div v-if="choiceStore.isSubmitted" class="text-h6 text-secondary">
+      得分：{{ `${choiceStore.score} / ${choiceStore.questionCount}` }}
+    </div>
     <q-list class="shadow-up-1">
       <ProgressOverviewItem
         v-for="index in range(choiceStore.questionCount)"
@@ -17,7 +20,12 @@
         :isCorrect="choiceStore.isCorrect(index)"
         :isSubmitted="choiceStore.isSubmitted"
       />
+    </q-list>
 
+    <div v-if="matchingStore.isSubmitted" class="text-h6 text-secondary">
+      得分：{{ `${matchingStore.score} / ${matchingStore.questionCount}` }}
+    </div>
+    <q-list class="shadow-up-1">
       <ProgressOverviewItem
         v-for="index in range(matchingStore.questionCount)"
         :key="index"

@@ -6,6 +6,9 @@
     </div>
     <div class="text-h5 text-bold">看完影片後，回答題組問題：</div>
 
+    <div v-if="store.isAllSubmitted" class="text-h6 text-secondary">
+      得分：{{ `${store.allScore} / ${store.allQuestionCount}` }}
+    </div>
     <q-list class="shadow-up-1">
       <q-expansion-item
         v-for="groupIndex in range(store.groupCount)"
