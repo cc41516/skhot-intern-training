@@ -31,15 +31,14 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
 import { parseRoute, getQuestionCount } from "@/utils/common";
 import { QuestionType, TestPhase } from "@/global";
 import router from "@/router";
+import { usePreChoiceStore, usePostChoiceStore } from "@/store/choice";
+import { useVideoStore } from "@/store/video";
+import { usePreMatchingStore, usePostMatchingStore } from "@/store/matching";
 
-const route = useRoute();
-const { testPhase, questionType, questionIndex, groupIndex } = parseRoute(
-  route.path
-);
+const { testPhase, questionType, questionIndex, groupIndex } = parseRoute();
 const questionCount = getQuestionCount(questionType, groupIndex);
 let phaseName: string = "";
 let typeName: string = "";
@@ -90,6 +89,29 @@ function next() {
 }
 
 function done() {
+  switch (testPhase) {
+    case TestPhase.Pre:
+      if (questionType === QuestionType.Choice) {
+        usePreChoiceStore().submit();
+      }
+      if (questionType === QuestionType.Matching) {
+        usePreMatchingStore().submit();
+      }
+      break;
+    case TestPhase.Mid:
+      if (questionType === QuestionType.Video) {
+        useVideoStore().submit(groupIndex);
+      }
+      break;
+    case TestPhase.Post:
+      if (questionType === QuestionType.Choice) {
+        usePostChoiceStore().submit();
+      }
+      if (questionType === QuestionType.Matching) {
+        usePostMatchingStore().submit();
+      }
+      break;
+  }
   router.push({ name: phaseName });
 }
 </script>

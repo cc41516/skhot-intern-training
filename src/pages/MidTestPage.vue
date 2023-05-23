@@ -13,12 +13,11 @@
       >
         <template v-slot:header>
           <q-item-section class="text-h6"> {{ store.getGroup(groupIndex).topic }} </q-item-section>
-          <q-item-section v-if="store.isGroupDone(groupIndex)" side>
-            <div class="text-green">已完成</div>
-          </q-item-section>
-          <q-item-section v-else="store.isGroupDone(groupIndex)" side>
-            未完成
-          </q-item-section>
+          <q-item-section side>
+            <div v-if="store.isSubmitted(groupIndex)" class="text-green">已完成</div>
+            <div v-else-if="store.isGroupDone(groupIndex)" class="text-yellow">未提交</div>
+            <div v-else>未完成</div>
+          </q-item-section>          
         </template>
         <ProgressOverviewItem
           @click="enterVideo(groupIndex, -1)"
@@ -33,16 +32,16 @@
           :label="`選擇題 ${quesIndex + 1}`"
           :isDone="store.isDone(groupIndex, quesIndex)"
           :isCorrect="store.isCorrect(groupIndex, quesIndex)"
-          :isSubmitted="store.isSubmitted"
+          :isSubmitted="store.isSubmitted(groupIndex)"
         />
       </q-expansion-item>
     </q-list>
 
     <div class="float-right">
       <q-btn
-        label="提交"
-        :color="canSubmit ? 'secondary' : 'negative'"
-        @click="enterAnswer"
+        label="繼續"
+        :color="allSubmit ? 'secondary' : 'negative'"
+        @click="nextPhase"
         class="q-py-sm"
       />
     </div>
@@ -58,7 +57,7 @@ import ProgressOverviewItem from "@/containers/ProgressOverviewItem.vue";
 
 const router = useRouter();
 const store = useVideoStore();
-const canSubmit = store.isAllDone;
+const allSubmit = store.isAllSubmitted;
 
 function enterVideo(groupIndex: number, questionIndex: number) {
   // if questionIndex == -1, go to watch video
@@ -71,10 +70,12 @@ function enterVideo(groupIndex: number, questionIndex: number) {
   });
 }
 
-function enterAnswer() {
-  store.submit()
-  router.push({
-    name: "midTestAnswer",
-  });
+function nextPhase() {
+  if (allSubmit) {
+    router.push({
+      name: "postTest",
+    });
+  }
 }
+
 </script>

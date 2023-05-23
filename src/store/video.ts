@@ -16,16 +16,16 @@ export interface VideoQuestions extends Array<VideoQuestion> {}
 
 const questionsGroups: VideoQuestions = JSON.parse(JSON.stringify(videoJson));
 const _initReplies: number[][] = range(questionsGroups.length).map(
-  (_, quesIndex) => range(questionsGroups[quesIndex].questions.length).fill(-1)
+  (_, quesIndex) => Array(questionsGroups[quesIndex].questions.length).fill(-1)
 );
 
 export const useVideoStore = defineStore("video", () => {
-  // Define main variables
-  const _replies = reactive(_initReplies);
-  const _isSubmitted = ref(false);
-
   // Count API
   const groupCount: number = questionsGroups.length;
+
+  // Define main variables
+  const _replies: number[][] = reactive(_initReplies);
+  const _isSubmitted: boolean[] = reactive(Array(groupCount).fill(false));
 
   function groupQuestionCount(groupIndex: number): number {
     return questionsGroups[groupIndex].questions.length;
@@ -89,6 +89,7 @@ export const useVideoStore = defineStore("video", () => {
   }
 
   function doQuestion(groupIndex: number, quesIndex: number, reply: number) {
+    if (isSubmitted(groupIndex)) return;
     _replies[groupIndex][quesIndex] = reply;
   }
 
@@ -97,17 +98,22 @@ export const useVideoStore = defineStore("video", () => {
   }
 
   function getAnswer(groupIndex: number, quesIndex: number): number {
-    if (quesIndex === -1) { // watching video
+    // watching video
+    if (quesIndex === -1) {
       return -1;
     }
     return questionsGroups[groupIndex].questions[quesIndex].answer;
   }
 
   // Submit API
-  const isSubmitted = computed(() => _isSubmitted.value);
+  function isSubmitted(groupIndex: number) {
+    return _isSubmitted[groupIndex];
+  }
 
-  function submit() {
-    _isSubmitted.value = true;
+  const isAllSubmitted = computed(() => _isSubmitted.every((s) => s))
+
+  function submit(groupIndex: number) {
+    _isSubmitted[groupIndex] = true;
   }
 
   return {
@@ -132,6 +138,7 @@ export const useVideoStore = defineStore("video", () => {
     getAnswer,
 
     isSubmitted,
+    isAllSubmitted,
     submit,
   };
 });

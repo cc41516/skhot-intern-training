@@ -30,7 +30,7 @@ const { video } = store.getGroup(props.groupIndex);
 let statement: string = "請看完下列影片，再回答後續問題。"; // watching video
 let options: string[] = [];
 const answer: ChoiceAnswer = {
-  hide: !store.isSubmitted,
+  hide: !store.isSubmitted(props.groupIndex),
   answer: store.getAnswer(props.groupIndex, props.questionIndex)
 }
 

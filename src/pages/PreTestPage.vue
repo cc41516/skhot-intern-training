@@ -33,9 +33,9 @@
 
     <div class="float-right">
       <q-btn
-        label="提交"
-        :color="canSubmit ? 'secondary' : 'negative'"
-        @click="enterAnswer"
+        label="繼續"
+        :color="allSubmit ? 'secondary' : 'negative'"
+        @click="nextPhase"
         class="q-py-sm"
       />
     </div>
@@ -60,7 +60,7 @@ const choiceStore = props.post ? usePostChoiceStore() : usePreChoiceStore();
 const matchingStore = props.post
   ? usePostMatchingStore()
   : usePreMatchingStore();
-const canSubmit: boolean = choiceStore.isAllDone && matchingStore.isAllDone;
+const allSubmit: boolean = choiceStore.isSubmitted && matchingStore.isSubmitted;
 
 function enterChoice(index: number) {
   router.push({
@@ -80,11 +80,11 @@ function enterMatching(index: number) {
   });
 }
 
-function enterAnswer() {
-  choiceStore.submit();
-  matchingStore.submit();
-  router.push({
-    name: props.post ? "postTestAnswer" : "preTestAnswer",
-  });
+function nextPhase() {
+  if (allSubmit) {
+    router.push({
+      name: props.post ? "home" : "midTest",
+    });
+  }
 }
 </script>

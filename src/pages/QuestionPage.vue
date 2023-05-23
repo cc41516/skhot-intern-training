@@ -1,13 +1,13 @@
 <template>
   <PageWrapper>
     <div class="row justify-between">
-      <!-- questionIndex == -1 means watching video page -->
+      <!-- questionIndex is -1 means watching video page -->
       <ProgressChip
         v-if="questionIndex === -1"
         :label="`Video ${groupIndex + 1}`"
       />
       <ProgressChip v-else :label="`Question ${questionIndex + 1}`" />
-      <q-btn flat label="Home" to="/home" />
+      <q-btn flat label="Back" @click="toPhase" />
     </div>
     <div>
       <QuestionChoice
@@ -39,6 +39,7 @@ import QuestionVideo from "@/containers/QuestionVideo.vue";
 import QuestionMatching from "@/containers/QuestionMatching.vue";
 import ProgressChip from "@/components/ProgressChip.vue";
 import { QuestionType, TestPhase } from "@/global";
+import router from "@/router/index.ts";
 
 interface Props {
   testPhase: TestPhase;
@@ -47,7 +48,20 @@ interface Props {
   groupIndex?: number;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   groupIndex: 0,
 });
+
+function toPhase() {
+  let phaseName: string;
+  if (props.testPhase === TestPhase.Pre) {
+    phaseName = "preTest";
+  } else if (props.testPhase === TestPhase.Mid) {
+    phaseName = "midTest";
+  } else {
+    phaseName = "postTest";
+  }
+
+  router.push({ name: phaseName });
+}
 </script>

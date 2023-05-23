@@ -1,3 +1,4 @@
+import { useRoute } from "vue-router";
 import { QuestionType, QuestionInfo, TestPhase } from "@/global";
 import { usePreChoiceStore } from "@/store/choice";
 import { usePreMatchingStore } from "@/store/matching";
@@ -27,7 +28,10 @@ export function getImageUrl(name: string) {
   return new URL(`../assets/images/${name}`, import.meta.url).href;
 }
 
-export function parseRoute(path: string): any {
+export function parseRoute(): any {
+  const route = useRoute();
+  const path = route.path;
+  
   const segments = path.split("/");
   let testPhase: TestPhase;
   let questionType: QuestionType;
