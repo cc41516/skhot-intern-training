@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { reactive, computed, ref } from "vue";
 import matchingJson from "@/assets/questions/Matching.json";
-import { range, sum } from "@/utils/common";
+import { equalSet, range, sum } from "@/utils/common";
 
 export interface MatchingCase {
   image: string;
@@ -92,7 +92,13 @@ function createMatchingStore() {
     const indicationAnswer = questions[index].cases.map(
       (q) => new Set(q.indication)
     );
-    return nameReply === nameAnswer && indicationReply === indicationAnswer;
+
+    for (let i = 0; i < nameAnswer.length; i++) {
+      if (!equalSet(nameReply[i], nameAnswer[i])) return false;
+      if (!equalSet(indicationReply[i], indicationAnswer[i])) return false;
+    }
+
+    return true;
   }
 
   const score = computed(() => {
@@ -104,12 +110,11 @@ function createMatchingStore() {
   });
 
   // Submit API
-  const isSubmitted = computed(() => _isSubmitted.value)
-  
+  const isSubmitted = computed(() => _isSubmitted.value);
+
   function submit() {
     _isSubmitted.value = true;
   }
-
 
   return {
     questionCount,

@@ -24,6 +24,10 @@ export function shuffle(arr: Array<any>, seed: number = 1) {
   }
 }
 
+export function equalSet(A: Set<any>, B: Set<any>): boolean {
+  return A.size === B.size && [...A].every((e) => B.has(e));
+}
+
 export function getImageUrl(name: string) {
   return new URL(`../assets/images/${name}`, import.meta.url).href;
 }
@@ -31,7 +35,7 @@ export function getImageUrl(name: string) {
 export function parseRoute(): any {
   const route = useRoute();
   const path = route.path;
-  
+
   const segments = path.split("/");
   let testPhase: TestPhase;
   let questionType: QuestionType;
