@@ -1,22 +1,43 @@
 [
-    {
-        "statement": "Erat imperdiet sed euismod nisi porta lorem mollis aliquam. Aenean sed adipiscing",
-        "options": [
-            "diam donec adipiscing tristique risus",
-            "Porttitor rhoncus dolor purus non enim",
-            "Nulla porttitor massa id neque aliquam",
-            "vestibulum morbi blandit cursus"],
-        "answer": 1
-    },
-    {
-        "statement": "2+2=?",
-        "options": ["1", "2", "3", "4"],
-        "answer": 2
-    },
-    {
-        "statement": "3+3=?",
-        "options": ["1", "2", "3", "4"],
-        "answer": 3
-    }
-]
+  {
+    "statement": "下列對於副木材料敘述何者錯誤？",
+    "options": [
+      "副木有許多不同的材質，如orthoplast, aquaplast, orfit等，根據目的與其特性選擇合適的材質進行製作",
+      "副木為高溫塑型材料，需要高溫才可軟化。",
+      "有些特定的副木種類已有precut，可根據個案的肢段長度與大小選擇是否用precut製作。",
+      "雖然可根據診斷及擺位角度選擇製作特定形式的副木，但仍需要根據個案的狀況進行微調。"
+    ],
+    "answer": 1
+  },
+  {
+    "statement": "下列關於副木材料特性何者正確？",
+    "options": [
+      "副木材料單一，僅有一種選擇。",
+      "自黏性較強的副木，通常表面會有一層coating，讓副木能夠順利自黏。",
+      "可分成以下數點進行分析：記憶性（Memory）、服貼性（Drapability）、延展性（Elasticity）、自黏性（Bonding）、（Self-finishing edges）、回縮性（Shrinkage）",
+      "副木冷卻時，比較容易修剪，能順利地剪出平順的邊"
+    ],
+    "answer": 2
+  },
+  {
+    "statement": "下列關於副木材料特性的比較，何者正確？",
+    "options": [
+      "記憶性：Orthoplast>Aquaplast",
+      "自黏性：Orthoplast>Aquaplast",
+      "回縮性：Orthoplast>Aquaplast",
+      "服貼性：Orthoplast>Aquaplast"
+    ],
+    "answer": 0
+  },
 
+  {
+    "statement": "若是下列副木清潔方式何者錯誤？",
+    "options": [
+      "使用中性清潔劑。",
+      "以布沾清水擦拭",
+      "將整隻副木浸泡於水中刷洗",
+      "使用濕紙巾擦拭"
+    ],
+    "answer": 2
+  }
+]

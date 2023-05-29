@@ -185,73 +185,113 @@
   },
   {
     "topic": "Resting",
-    "video": "https://youtube.com/embed/CCQG1Sh5D28",
+    "video": "https://youtu.be/iUee56qh6oU",
     "questions": [
       {
-        "statement": "肌鍵損傷的病人應避免攝取何物？",
-        "options": ["咖啡因", "尼古丁", "巧克力", "以上皆是"],
-        "answer": 3
-      },
-      {
-        "statement": "手術後第二天~四星期副木應穿戴多長的時間？",
-        "options": ["1小時", "6小時", "12小時", "24小時"],
-        "answer": 3
-      },
-      {
-        "statement": "Extensor splint 需要量測的位置何者正確？",
-        "options": ["中指遠端至前臂2/3寬", "MP寬", "前臂2/3寬", "以上皆是"],
-        "answer": 3
-      },
-      {
-        "statement": "伸指肌的分區何者正確？",
-        "options": ["手背7個區域", "前臂2個區域", "大拇指5個區域", "以上皆是"],
-        "answer": 3
-      },
-      {
-        "statement": "手術後六星期~三個月的注意事項何者正確？",
+        "statement": "下列何者非為常見之Resting splint型式？",
         "options": [
-          "副木穿戴：停止穿戴副木",
-          "運動：不需要穿戴副木動作，開始操作手部被動彎曲、伸直的拉筋運動",
-          "可以使用患側手做事，禁止操作劇烈運動和粗重工作。",
+          "anti-deformity position",
+          "anti-spasticity splint",
+          "intrinsic-minus postion",
+          "functional position"
+        ],
+        "answer": 2
+      },
+      {
+        "statement": "Resting splint之適應對象為何？？",
+        "options": [
+          "類風溼性關節炎 (Rheumatoid Arthritis)",
+          "燒燙傷病人(Burn injuries)",
+          "中樞神經系統損傷(如：CVA、SCI和TBI等)而造成手部張力過強者",
           "以上皆是"
         ],
         "answer": 3
+      },
+      {
+        "statement": "幫張力較強之個案製作副木，下列敘述何者為非？？",
+        "options": [
+          "可選擇anti-spasticity splint之形式製作",
+          "固定角度需視個案之張力強度及對於疼痛忍受程度而定",
+          "擺位角度為wrist、MCP and IP total extension; thumb extension and abduction，且角度拉得越大效果越好",
+          "可額外製作黏扣帶(三明治)，固定在個案張力較強的部位"
+        ],
+        "answer": 2
+      },
+      {
+        "statement": "下列何種副木材料不適用於製作Resting splint？",
+        "options": [
+          "Orfit light, 1.6mm",
+          "Orfit eco, 3.2mm",
+          "Orthoplast, 3.2mm",
+          "Orfit, 3.2mm"
+        ],
+        "answer": 0
+      },
+      {
+        "statement": "關於Resting splint之相關穿戴注意事項，下列何者為非？",
+        "options": [
+          "RA慢性期之病人需全天候穿戴副木，以避免疼痛及關節攣縮",
+          "燒燙傷之急性期病人除了治療時間之外，建議全天候穿戴",
+          "中風病人建議穿戴每次穿戴最多兩小時需脫下休息三十分鐘左右，取下休息時可做適度的關節運動，以避免關節僵硬",
+          "以上皆是"
+        ],
+        "answer": 0
       }
     ]
   },
   {
     "topic": "Long Opponens",
-    "video": "https://youtube.com/embed/CCQG1Sh5D28",
+    "video": "https://youtu.be/iUee56qh6oU",
     "questions": [
       {
-        "statement": "肌鍵損傷的病人應避免攝取何物？",
-        "options": ["咖啡因", "尼古丁", "巧克力", "以上皆是"],
-        "answer": 3
-      },
-      {
-        "statement": "手術後第二天~四星期副木應穿戴多長的時間？",
-        "options": ["1小時", "6小時", "12小時", "24小時"],
-        "answer": 3
-      },
-      {
-        "statement": "Extensor splint 需要量測的位置何者正確？",
-        "options": ["中指遠端至前臂2/3寬", "MP寬", "前臂2/3寬", "以上皆是"],
-        "answer": 3
-      },
-      {
-        "statement": "伸指肌的分區何者正確？",
-        "options": ["手背7個區域", "前臂2個區域", "大拇指5個區域", "以上皆是"],
-        "answer": 3
-      },
-      {
-        "statement": "手術後六星期~三個月的注意事項何者正確？",
+        "statement": "下列何者不是長對掌（Long opponens）副木的主要功能？",
         "options": [
-          "副木穿戴：停止穿戴副木",
-          "運動：不需要穿戴副木動作，開始操作手部被動彎曲、伸直的拉筋運動",
-          "可以使用患側手做事，禁止操作劇烈運動和粗重工作。",
+          "限制手腕及大拇指的關節動作，避免過度使用。",
+          "支撐並保護疼痛的大拇指、手腕關節及其附近的組織。",
+          "給予大拇指及手腕關節動作的支持，促進其關節活動度，使其動作表現更有效率。",
+          "提供大拇指及手腕關節固定效果，以舒緩疼痛、降低發炎，保護組織並促進其癒合。"
+        ],
+        "answer": 2
+      },
+      {
+        "statement": "何者是製作長對掌副木的常見適應症？",
+        "options": [
+          "De Quervain’s tenosynovitis",
+          "First CMC joint arthritis",
+          "Thumb UCL/RCL reconstruction",
           "以上皆是"
         ],
         "answer": 3
+      },
+      {
+        "statement": "De Quervain's  tenosynovitis 的成因是下列哪兩條肌肉的肌腱和滑膜受手背橈側腔室發炎腫脹壓迫而導致？",
+        "options": [
+          "伸拇短肌（EPB）及外展拇長肌（APL）",
+          "屈拇短肌（FPB）及拇對指肌（opponens pollicis）",
+          "伸姆短肌（EPB）及拇對指肌（opponens pollicis）",
+          "屈拇短肌（FPB）及外展拇長肌（APL）"
+        ],
+        "answer": 0
+      },
+      {
+        "statement": "下列針對長對掌（Long opponens）副木的穿戴時機建議何者為非？",
+        "options": [
+          "白天穿2小時後，要拿下來休息至少20~30分鐘，並做適度的關節活動",
+          "為避免活動時大拇指及手腕關節的疼痛加劇，建議個案做事時一定要穿戴上副木，以提供保護固定的效果",
+          "急性個案應盡量多讓患部休息，休息時即可穿戴副木以提供較好的保護及固定效果",
+          "晚上睡覺時也可以穿戴"
+        ],
+        "answer": 1
+      },
+      {
+        "statement": "關於媽媽手患者穿戴長對掌副木之衛教內容，何者有誤?",
+        "options": [
+          "個案若覺得副木穿戴上有不適感，可以自行調整副木形式或是穿戴方法",
+          "請個案需正確穿戴副木，並調整其日常生活動作的習慣，避免使用患手拇指及手腕過度出力",
+          "副木若有髒汙可以可以乾淨的布沾冷水或中性的清潔劑做擦拭",
+          "建議個案的運動應視其狀況調整，以緩和拉筋→緩和主動運動→輕微阻力運動三階段循序漸進，每一階段須確定不會產生疼痛不適感，才可以進行至下一個階段"
+        ],
+        "answer": 0
       }
     ]
   }

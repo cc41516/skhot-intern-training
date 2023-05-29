@@ -2,7 +2,6 @@
   <q-btn
     rounded
     unelevated
-    no-wrap
     align="between"
     :ripple="false"
     size="xl"

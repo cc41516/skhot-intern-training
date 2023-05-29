@@ -1,16 +1,36 @@
 [
   {
-    "statement": "matching matching matching matching",
+    "statement": "請將以下名稱與適應症對照圖片配合放入",
     "cases": [
       {
-        "image": "bread.png",
-        "name": ["doge"],
-        "indication": ["xxx", "zzzzzzzzzzzzzz", "777777777777777777777777777777"]
+        "image": "Cock-up.png",
+        "name": ["Cock-up"],
+        "indication": ["carpal tunnel syndrome", "radial nerve palsy", "wrist sprain or instability"]
       },
       {
-        "image": "rocket.jpeg",
-        "name": ["QQQQQQQQQQQQQQQQQQ"],
-        "indication": ["yyy"]
+        "image": "Long Opponens.png",
+        "name": ["Long opponens"],
+        "indication": ["De Quervain’s tenosynovitis", "First CMC joint arthritis", "Thumb UCL/RCL reconstruction"]
+      },
+      {
+        "image": "Flexor Splint.png",
+        "name": ["Flexor Splint"],
+        "indication": ["Flexor Tendon Injury"]
+      },
+      {
+        "image": "Extensor Splint.png",
+        "name": ["Extensor Splint"],
+        "indication": ["Extensor Tendon Injury"]
+      },
+      {
+        "image": "Resting Splint.png",
+        "name": ["Resting Splint"],
+        "indication": ["Burn injury", "Functional Position", "Spasticity"]
+      },
+      {
+        "image": "AAFO.png",
+        "name": ["Anterior AFO"],
+        "indication": ["Drop Foot"]
       }
     ]
   }
