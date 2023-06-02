@@ -2,6 +2,7 @@
   <div class="column q-gutter-y-lg">
     <QuestionChoiceOption
       v-for="(option, index) in options"
+      :key="index"
       :content="option"
       :index="index"
       :reply="reply"

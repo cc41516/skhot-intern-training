@@ -11,11 +11,11 @@ interface UserRecord {
   preMatching?: MatchingCaseReply[][];
   postMatching?: MatchingCaseReply[][];
 
-  preChoiceDone?: boolean;
-  postChoiceDone?: boolean;
-  videoDone?: boolean;
-  preMatchingDone?: boolean;
-  postMatchingDone?: boolean;
+  preChoiceSubmitted?: boolean;
+  postChoiceSubmitted?: boolean;
+  videoSubmitted?: boolean;
+  preMatchingSubmitted?: boolean;
+  postMatchingSubmitted?: boolean;
 }
 
 interface User extends UserRecord {
@@ -24,6 +24,7 @@ interface User extends UserRecord {
 }
 
 export async function createUser(name: string): Promise<string | null> {
+  // Since localStorage.getItem return null when key does not exist, thus we set default value to null here to make consistency.
   let id: string | null = null;
   try {
     const { data } = await axios.post("/api/create", { name: name });
@@ -35,27 +36,29 @@ export async function createUser(name: string): Promise<string | null> {
   }
 }
 
-export async function getAllUsers(): Promise<Array<User> | null> {
-  let users: User[] | null = null;
+export async function getAllUsers(): Promise<Array<User> | undefined> {
   try {
-    const { data } = await axios.get("/api/user/all");
-    users = data;
+    const { data } = await axios.get("/api/users");
+    return data;
   } catch (error) {
     console.log(error);
-  } finally {
-    return users;
   }
 }
 
-export async function getUser(id: string): Promise<User | null> {
-  let user: User | null = null;
+export async function getUser(id: string): Promise<User | undefined> {
   try {
     const { data } = await axios.get(`/api/user/${id}`);
-    user = data;
+    return data;
   } catch (error) {
     console.log(error);
-  } finally {
-    return user;
+  }
+}
+
+export async function updateUser(id: string, record: UserRecord) {
+  try {
+    await axios.patch(`/api/update/${id}`, record);
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -68,9 +71,9 @@ export async function deleteUser(id: string) {
   }
 }
 
-export async function updateUser(id: string, record: UserRecord) {
+export async function deleteAllUsers() {
   try {
-    const res = await axios.patch(`/api/update/${id}`, record);
+    const res = await axios.delete("/api/delete");
     console.log(res.data);
   } catch (error) {
     console.log(error);

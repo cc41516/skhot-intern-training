@@ -15,11 +15,11 @@ const userSchema = new Schema({
   preMatching: { type: [MatchingCaseReplySchema], default: [] },
   postMatching: { type: [MatchingCaseReplySchema], default: [] },
 
-  preChoiceDone: { type: Boolean, default: false },
-  postChoiceDone: { type: Boolean, default: false },
-  videoDone: { type: Boolean, default: false },
-  preMatchingDone: { type: Boolean, default: false },
-  postMatchingDone: { type: Boolean, default: false },
+  preChoiceSubmitted: { type: Boolean, default: false },
+  postChoiceSubmitted: { type: Boolean, default: false },
+  videoSubmitted: { type: Boolean, default: false },
+  preMatchingSubmitted: { type: Boolean, default: false },
+  postMatchingSubmitted: { type: Boolean, default: false },
 });
 
 const User = model("User", userSchema);

@@ -69,6 +69,7 @@ const matchingStore = props.post
   ? usePostMatchingStore()
   : usePreMatchingStore();
 const allSubmit: boolean = choiceStore.isSubmitted && matchingStore.isSubmitted;
+console.log(choiceStore.getReply(0));
 
 function enterChoice(index: number) {
   router.push({

@@ -20,7 +20,7 @@ router.post("/create", async (req, res) => {
 });
 
 // Find user
-router.get("/user/all", async (req, res) => {
+router.get("/users", async (req, res) => {
   try {
     const allUsers = await User.find();
     res.json(allUsers);
@@ -56,7 +56,17 @@ router.delete('/delete/:id', async (req, res) => {
   try {
       const id = req.params.id;
       const user = await User.findOneAndDelete({id: id})
-      res.send(`${user.name} has been deleted..`)
+      res.send(`${user.name} has been deleted.`)
+  }
+  catch (error) {
+      res.status(400).json({ message: error.message })
+  }
+})
+
+router.delete('/delete', async (req, res) => {
+  try {
+      await User.deleteMany()
+      res.send("All users have been deleted.")
   }
   catch (error) {
       res.status(400).json({ message: error.message })

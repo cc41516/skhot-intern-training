@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { reactive, computed, ref } from "vue";
 import choiceJson from "@/assets/questions/Choice.json";
 import { range } from "@/utils/common";
+import { TestPhase } from "@/global";
+import { updateUser, getUser } from "@/server/controller";
 
 export interface ChoiceQuestion {
   statement: string;
@@ -13,8 +15,9 @@ export interface ChoiceQuestions extends Array<ChoiceQuestion> {}
 const questions: ChoiceQuestions = JSON.parse(JSON.stringify(choiceJson));
 const answers: number[] = questions.map((q) => q.answer);
 
-function createChoiceStore() {
+function createChoiceStore(phase: TestPhase) {
   // Define main variables
+  const id = localStorage.getItem("id");
   const _replies: number[] = reactive(range(questions.length).fill(-1));
   const _isSubmitted = ref(false);
 
@@ -55,6 +58,7 @@ function createChoiceStore() {
   function doQuestion(index: number, reply: number) {
     if (_isSubmitted.value) return;
     _replies[index] = reply;
+    _updateDatabase();
   }
 
   function getReply(index: number): number {
@@ -66,11 +70,67 @@ function createChoiceStore() {
   }
 
   // Submit API
-  const isSubmitted = computed(() => _isSubmitted.value)
+  const isSubmitted = computed(() => _isSubmitted.value);
 
   function submit() {
     _isSubmitted.value = true;
   }
+
+  // Clear API
+  function reset() {
+    range(_replies.length).map(i => _replies[i] = -1)
+    _isSubmitted.value = false
+  }
+
+  // Query and update database
+  async function initialize() {
+    if (id === null) return;
+
+    try {
+      const user = await getUser(id);
+      switch (phase) {
+        case TestPhase.Pre:
+          if (user?.preChoice?.length !== 0) {
+            range(_replies.length).map(i => {
+                _replies[i] = user?.preChoice?.[i] ?? -1;
+            })
+            _isSubmitted.value = user?.preChoiceSubmitted!;
+          }
+          break;
+        case TestPhase.Post:
+          if (user?.postChoice?.length !== 0) {
+            range(_replies.length).map(i => {
+              _replies[i] = user?.postChoice?.[i] ?? -1;
+          })
+            _isSubmitted.value = user?.postChoiceSubmitted!;
+          }
+          break;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function _updateDatabase() {
+    if (id === null) return;
+
+    switch (phase) {
+      case TestPhase.Pre:
+        await updateUser(id, {
+          preChoice: _replies,
+          preChoiceSubmitted: _isSubmitted.value,
+        });
+        break;
+      case TestPhase.Post:
+        await updateUser(id, {
+          postChoice: _replies,
+          postChoiceSubmitted: _isSubmitted.value,
+        });
+        break;
+    }
+  }
+
+  initialize()
 
   return {
     questionCount,
@@ -89,12 +149,15 @@ function createChoiceStore() {
 
     isSubmitted,
     submit,
+
+    reset,
+    initialize
   };
 }
 
 export const usePreChoiceStore = defineStore("preChoice", () =>
-  createChoiceStore()
+  createChoiceStore(TestPhase.Pre)
 );
 export const usePostChoiceStore = defineStore("postChoice", () =>
-  createChoiceStore()
+  createChoiceStore(TestPhase.Post)
 );

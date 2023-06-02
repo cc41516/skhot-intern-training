@@ -9,6 +9,7 @@
     <q-btn label="所有使用者" @click="myGetAllUsers" />
     <q-btn label="使用者" @click="myGetUser" />
     <q-btn label="刪除使用者" @click="myDeleteUser" />
+    <q-btn label="刪除所有使用者" @click="myDeleteAllUsers" />
     <q-btn label="更新使用者" @click="myUpdateUser" />
     <q-btn unelevated label="前測" @click="startTest" class="text-h5" />
     <q-btn unelevated label="影片題組" @click="startMidTest" class="text-h5" />
@@ -23,9 +24,11 @@ import {
   createUser,
   getAllUsers,
   getUser,
-  deleteUser,
   updateUser,
-} from "../../server/controller.ts";
+  deleteUser,
+  deleteAllUsers,
+} from "../server/controller.ts";
+import { usePreChoiceStore, usePostChoiceStore } from "@/store/choice";
 
 const router = useRouter();
 const name = ref("");
@@ -44,17 +47,17 @@ function startPostTest() {
 
 async function myCreateUser() {
   let id = await createUser(name.value);
-  if (id !== undefined) {
+  if (id !== null) {
     localStorage.setItem("id", id);
-    console.log(`Successfully created a new user with id: ${id}`);
+    console.log(`Successfully created a new user ${name.value}.`);
   } else {
-    console.log("Failed to create new user.");
+    console.log("Failed to create a new user.");
   }
 }
 
 async function myGetAllUsers() {
   let users = await getAllUsers();
-  console.log(users);
+  console.log(users?.map(u => u.name));
 }
 
 async function myGetUser() {
@@ -69,7 +72,13 @@ async function myDeleteUser() {
   let id = localStorage.getItem("id");
   if (id !== null) {
     deleteUser(id);
+    usePreChoiceStore().reset()
+    localStorage.clear()
   }
+}
+
+async function myDeleteAllUsers() {
+  await deleteAllUsers();
 }
 
 async function myUpdateUser() {
