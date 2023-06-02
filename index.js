@@ -8,7 +8,7 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import mongoose from "mongoose";
-import routes from "./server/routes.js"
+import routes from "./src/server/routes.js"
 
 // 獲取__filename
 function getCurrnetFile() {

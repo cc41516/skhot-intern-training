@@ -18,17 +18,25 @@ interface UserRecord {
   postMatchingDone?: boolean;
 }
 
-export async function createUser(name: string): Promise<string | undefined> {
+interface User extends UserRecord {
+  name: string;
+  id: string;
+}
+
+export async function createUser(name: string): Promise<string | null> {
+  let id: string | null = null;
   try {
     const { data } = await axios.post("/api/create", { name: name });
-    return data.id;
+    id = data.id;
   } catch (error) {
     console.log(error);
+  } finally {
+    return id;
   }
 }
 
-export async function getAllUsers(): Promise<Array<Object>> {
-  let users = [];
+export async function getAllUsers(): Promise<Array<User> | null> {
+  let users: User[] | null = null;
   try {
     const { data } = await axios.get("/api/user/all");
     users = data;
@@ -39,8 +47,8 @@ export async function getAllUsers(): Promise<Array<Object>> {
   }
 }
 
-export async function getUser(id: string): Promise<Object> {
-  let user: any;
+export async function getUser(id: string): Promise<User | null> {
+  let user: User | null = null;
   try {
     const { data } = await axios.get(`/api/user/${id}`);
     user = data;

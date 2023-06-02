@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "server": "nodemon server.js"
+    "server": "nodemon index.js"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.3",
