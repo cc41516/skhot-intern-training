@@ -5,7 +5,6 @@ import PreTestPage from "@/pages/PreTestPage.vue";
 import MidTestPage from "@/pages/MidTestPage.vue";
 import PostTestPage from "@/pages/PostTestPage.vue";
 import QuestionPage from "@/pages/QuestionPage.vue";
-import AnswerPage from "@/pages/AnswerPage.vue";
 import ScorePage from "@/pages/ScorePage.vue";
 import { QuestionType, TestPhase } from "@/global";
 
@@ -51,12 +50,6 @@ const routes = [
           };
         },
       },
-      {
-        path: "answer",
-        name: "preTestAnswer",
-        component: AnswerPage,
-        props: () => ({ testPhase: TestPhase.Pre }),
-      },
     ],
   },
   // ========================== Mid-Test Page ==========================
@@ -81,12 +74,6 @@ const routes = [
             questionIndex: Number(route.params.questionIndex) - 1,
           };
         },
-      },
-      {
-        path: "answer",
-        name: "midTestAnswer",
-        component: AnswerPage,
-        props: () => ({ testPhase: TestPhase.Mid }),
       },
     ],
   },
@@ -123,12 +110,6 @@ const routes = [
             questionIndex: Number(route.params.questionIndex) - 1,
           };
         },
-      },
-      {
-        path: "answer",
-        name: "postTestAnswer",
-        component: AnswerPage,
-        props: () => ({ testPhase: TestPhase.Post }),
       },
     ],
   },
