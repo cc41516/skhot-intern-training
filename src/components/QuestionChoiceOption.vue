@@ -1,27 +1,24 @@
 <template>
-  <q-btn
-    rounded
-    unelevated
-    align="between"
-    :ripple="false"
-    size="xl"
+  <div
     @click="selectOption"
-    class="transparent-border"
+    class="row items-center option-border cursor-pointer q-pa-md"
     :class="{
       'selected-option': isSelected && answer.hide,
       'wrong-option': showWrong,
       'correct-option': showCorrect && reply === answer.answer,
     }"
   >
-    <div class="text-body1 text-weight-regular">
-      <q-avatar color="secondary" font-size="1.2rem" class="q-mr-xl">{{
-        symbol
-      }}</q-avatar>
+    <div class="col-1 text-weight-regular">
+      <q-avatar color="secondary" font-size="1.4rem">{{ symbol }}</q-avatar>
+    </div>
+    <div class="col-9 text-h6">
       {{ content }}
     </div>
-    <div v-if="showCorrect" class="text-green text-body1">正確答案</div>
-    <div v-if="showWrong" class="text-negative text-body1">錯誤選項</div>
-  </q-btn>
+    <div class="col-2 text-right">
+      <div v-if="showCorrect" class="text-green text-body1">正確答案</div>
+      <div v-if="showWrong" class="text-negative text-body1">錯誤選項</div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -55,8 +52,12 @@ function selectOption() {
 </script>
 
 <style scoped lang="scss">
-.transparent-border {
+.option-border {
   border: 2px solid transparent;
+  border-radius: 999px;
+}
+.option-border:hover {
+  background-color: $grey-10;
 }
 .selected-option {
   border-color: $secondary;
