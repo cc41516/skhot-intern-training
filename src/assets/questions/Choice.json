@@ -14,7 +14,7 @@
     "options": [
       "副木材料單一，僅有一種選擇。",
       "自黏性較強的副木，通常表面會有一層coating，讓副木能夠順利自黏。",
-      "可分成以下數點進行分析：記憶性（Memory）、服貼性（Drapability）、延展性（Elasticity）、自黏性（Bonding）、（Self-finishing edges）、回縮性（Shrinkage）",
+      "可分成以下數點進行分析：記憶性（Memory）、服貼性（Drapability）、延展性（Elasticity）、自黏性（Bonding）、收邊性（Self-finishing edges）、回縮性（Shrinkage）",
       "副木冷卻時，比較容易修剪，能順利地剪出平順的邊"
     ],
     "answer": 2
@@ -22,10 +22,10 @@
   {
     "statement": "下列關於副木材料特性的比較，何者正確？",
     "options": [
-      "記憶性：Orthoplast>Aquaplast",
-      "自黏性：Orthoplast>Aquaplast",
-      "回縮性：Orthoplast>Aquaplast",
-      "服貼性：Orthoplast>Aquaplast"
+      "記憶性：Orthoplast > Aquaplast",
+      "自黏性：Orthoplast > Aquaplast",
+      "回縮性：Orthoplast > Aquaplast",
+      "服貼性：Orthoplast > Aquaplast"
     ],
     "answer": 0
   },
