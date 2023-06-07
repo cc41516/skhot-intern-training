@@ -7,27 +7,38 @@ import { MatchingCaseReply } from "@/store/matching";
 interface UserRecord {
   preChoice?: number[];
   postChoice?: number[];
-  video?: number[];
+  video?: number[][];
   preMatching?: MatchingCaseReply[][];
   postMatching?: MatchingCaseReply[][];
 
   preChoiceSubmitted?: boolean;
   postChoiceSubmitted?: boolean;
-  videoSubmitted?: boolean;
+  videoSubmitted?: boolean[];
   preMatchingSubmitted?: boolean;
   postMatchingSubmitted?: boolean;
 }
 
-interface User extends UserRecord {
-  name: string;
+export interface User extends UserRecord {
   id: string;
+  name: string;
+  graduateYear: string;
+  order: string;
 }
 
-export async function createUser(name: string): Promise<string | null> {
-  // Since localStorage.getItem return null when key does not exist, thus we set default value to null here to make consistency.
+export async function createUser(
+  name: string,
+  graduateYear: number,
+  order: number
+): Promise<string | null> {
+  // Since localStorage.getItem return null when key does not exist,
+  // thus we set default value to null here to make consistency.
   let id: string | null = null;
   try {
-    const { data } = await axios.post("/api/create", { name: name });
+    const { data } = await axios.post("/api/create", {
+      name: name,
+      graduateYear: graduateYear,
+      order: order,
+    });
     id = data.id;
   } catch (error) {
     console.log(error);

@@ -7,8 +7,10 @@ const router = express.Router();
 // Create new user
 router.post("/create", async (req, res) => {
   const user = new User({
-    name: req.body.name,
     id: crypto.randomUUID(),
+    name: req.body.name,
+    graduateYear: req.body.graduateYear,
+    order: req.body.order,
   });
 
   try {

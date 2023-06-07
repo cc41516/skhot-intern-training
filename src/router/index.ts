@@ -1,14 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router";
 import EmptyRouterView from "@/pages/EmptyRouterView.vue";
+import LoginPage from "@/pages/LoginPage.vue";
 import HomePage from "@/pages/HomePage.vue";
 import PreTestPage from "@/pages/PreTestPage.vue";
 import MidTestPage from "@/pages/MidTestPage.vue";
 import PostTestPage from "@/pages/PostTestPage.vue";
 import QuestionPage from "@/pages/QuestionPage.vue";
 import ScorePage from "@/pages/ScorePage.vue";
+import AdminPage from "@/pages/AdminPage.vue";
 import { QuestionType, TestPhase } from "@/global";
 
 const routes = [
+  // ========================== First Time Login Page ==========================
+  {
+    path: "/login",
+    name: "login",
+    component: LoginPage,
+    beforeEnter: () => {
+      if (localStorage.getItem("id") !== null) return { name: "home" };
+    },
+  },
   // ========================== Home Page ==========================
   { path: "/", redirect: "/home" },
   {
@@ -119,16 +130,30 @@ const routes = [
     name: "score",
     component: ScorePage,
   },
+  // ========================== Admin Page ==========================
+  {
+    path: "/admin",
+    name: "admin",
+    component: AdminPage,
+  },
   // ========================== Error Page ==========================
   {
     path: "/:pathMatch(.*)",
     component: () => import("@/pages/NotFoundPage.vue"),
   },
+  
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes: routes,
+});
+
+router.beforeEach(async (to, _) => {
+  const id = localStorage.getItem("id");
+  if (id === null && to.name !== "login") {
+    return { name: "login" };
+  }
 });
 
 export default router;
