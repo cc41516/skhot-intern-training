@@ -51,6 +51,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { usePreChoiceStore, usePostChoiceStore } from "@/store/choice";
 import { usePreMatchingStore, usePostMatchingStore } from "@/store/matching";
@@ -68,8 +69,9 @@ const choiceStore = props.post ? usePostChoiceStore() : usePreChoiceStore();
 const matchingStore = props.post
   ? usePostMatchingStore()
   : usePreMatchingStore();
-const allSubmit: boolean = choiceStore.isSubmitted && matchingStore.isSubmitted;
-console.log(choiceStore.getReply(0));
+const allSubmit = computed(
+  () => choiceStore.isSubmitted && matchingStore.isSubmitted
+);
 
 function enterChoice(index: number) {
   router.push({

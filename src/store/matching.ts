@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { reactive, computed, ref } from "vue";
 import matchingJson from "@/assets/questions/Matching.json";
 import { equalSet, range, sum } from "@/utils/common";
+import { TestPhase } from "@/global";
+import { updateUser, getUser } from "@/server/controller";
 
 export interface MatchingCase {
   image: string;
@@ -30,8 +32,9 @@ function createReply(): MatchingCaseReply[][] {
   );
 }
 
-function createMatchingStore() {
+function createMatchingStore(phase: TestPhase) {
   // Define main variables
+  const id = localStorage.getItem("id");
   const _replies: MatchingCaseReply[][] = reactive(createReply());
   const _isSubmitted = ref(false);
 
@@ -71,6 +74,7 @@ function createMatchingStore() {
   function doQuestion(quesIndex: number, reply: MatchingCaseReply[]) {
     if (_isSubmitted.value) return;
     _replies[quesIndex] = reply;
+    _updateDatabase();
   }
 
   function getReply(index: number): MatchingCaseReply[] {
@@ -114,7 +118,69 @@ function createMatchingStore() {
 
   function submit() {
     _isSubmitted.value = true;
+    _updateDatabase();
   }
+
+  // Clear API
+  function reset() {
+    _replies.forEach((_, index, arr) => {
+      arr[index] = Array(questions[index].cases.length).fill({
+        name: [],
+        indication: [],
+      });
+    });
+    _isSubmitted.value = false;
+  }
+
+  // Query and update database
+  async function _initialize() {
+    if (id === null) return;
+
+    try {
+      const user = await getUser(id);
+      switch (phase) {
+        case TestPhase.Pre:
+          if (user?.preMatching?.length !== 0) {
+            _replies.forEach((_, index, arr) => {
+              arr[index] = user?.preMatching?.[index]!
+            })
+            _isSubmitted.value = user?.preMatchingSubmitted!;
+          }
+          break;
+        case TestPhase.Post:
+          if (user?.postMatching?.length !== 0) {
+            _replies.forEach((_, index, arr) => {
+              arr[index] = user?.postMatching?.[index]!
+            })
+            _isSubmitted.value = user?.postMatchingSubmitted!;
+          }
+          break;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function _updateDatabase() {
+    if (id === null) return;
+
+    switch (phase) {
+      case TestPhase.Pre:
+        await updateUser(id, {
+          preMatching: _replies,
+          preMatchingSubmitted: _isSubmitted.value,
+        });
+        break;
+      case TestPhase.Post:
+        await updateUser(id, {
+          postMatching: _replies,
+          postMatchingSubmitted: _isSubmitted.value,
+        });
+        break;
+    }
+  }
+
+  _initialize();
 
   return {
     questionCount,
@@ -135,12 +201,14 @@ function createMatchingStore() {
 
     isSubmitted,
     submit,
+
+    reset,
   };
 }
 
 export const usePreMatchingStore = defineStore("preMatching", () =>
-  createMatchingStore()
+  createMatchingStore(TestPhase.Pre)
 );
 export const usePostMatchingStore = defineStore("postMatching", () =>
-  createMatchingStore()
+  createMatchingStore(TestPhase.Post)
 );

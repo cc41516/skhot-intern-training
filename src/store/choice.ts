@@ -18,7 +18,7 @@ const answers: number[] = questions.map((q) => q.answer);
 function createChoiceStore(phase: TestPhase) {
   // Define main variables
   const id = localStorage.getItem("id");
-  const _replies: number[] = reactive(range(questions.length).fill(-1));
+  const _replies: number[] = reactive(Array(questions.length).fill(-1));
   const _isSubmitted = ref(false);
 
   // Count API
@@ -74,16 +74,19 @@ function createChoiceStore(phase: TestPhase) {
 
   function submit() {
     _isSubmitted.value = true;
+    _updateDatabase();
   }
 
   // Clear API
   function reset() {
-    range(_replies.length).map(i => _replies[i] = -1)
-    _isSubmitted.value = false
+    _replies.forEach((_, index, arr) => {
+      arr[index] = -1;
+    });
+    _isSubmitted.value = false;
   }
 
   // Query and update database
-  async function initialize() {
+  async function _initialize() {
     if (id === null) return;
 
     try {
@@ -91,17 +94,17 @@ function createChoiceStore(phase: TestPhase) {
       switch (phase) {
         case TestPhase.Pre:
           if (user?.preChoice?.length !== 0) {
-            range(_replies.length).map(i => {
-                _replies[i] = user?.preChoice?.[i] ?? -1;
-            })
+            _replies.forEach((_, index, arr) => {
+              arr[index] = user?.preChoice?.[index] ?? -1;
+            });
             _isSubmitted.value = user?.preChoiceSubmitted!;
           }
           break;
         case TestPhase.Post:
           if (user?.postChoice?.length !== 0) {
-            range(_replies.length).map(i => {
-              _replies[i] = user?.postChoice?.[i] ?? -1;
-          })
+            _replies.forEach((_, index, arr) => {
+              arr[index] = user?.postChoice?.[index] ?? -1;
+            });
             _isSubmitted.value = user?.postChoiceSubmitted!;
           }
           break;
@@ -130,7 +133,7 @@ function createChoiceStore(phase: TestPhase) {
     }
   }
 
-  initialize()
+  _initialize();
 
   return {
     questionCount,
@@ -151,7 +154,6 @@ function createChoiceStore(phase: TestPhase) {
     submit,
 
     reset,
-    initialize
   };
 }
 

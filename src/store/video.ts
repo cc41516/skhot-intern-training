@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { reactive, computed, ref } from "vue";
 import videoJson from "@/assets/questions/Video.json";
 import { range } from "@/utils/common";
+import { updateUser, getUser } from "@/server/controller";
+import { usePreChoiceStore } from "./choice";
 
 export interface VideoQuestion {
   topic: string;
@@ -24,6 +26,7 @@ export const useVideoStore = defineStore("video", () => {
   const groupCount: number = questionsGroups.length;
 
   // Define main variables
+  const id = localStorage.getItem("id");
   const _replies: number[][] = reactive(_initReplies);
   const _isSubmitted: boolean[] = reactive(Array(groupCount).fill(false));
 
@@ -91,6 +94,7 @@ export const useVideoStore = defineStore("video", () => {
   function doQuestion(groupIndex: number, quesIndex: number, reply: number) {
     if (isSubmitted(groupIndex)) return;
     _replies[groupIndex][quesIndex] = reply;
+    _updateDatabase();
   }
 
   function getReply(groupIndex: number, quesIndex: number): number {
@@ -110,11 +114,48 @@ export const useVideoStore = defineStore("video", () => {
     return _isSubmitted[groupIndex];
   }
 
-  const isAllSubmitted = computed(() => _isSubmitted.every((s) => s))
+  const isAllSubmitted = computed(() => _isSubmitted.every((s) => s));
 
   function submit(groupIndex: number) {
     _isSubmitted[groupIndex] = true;
+    _updateDatabase();
   }
+
+  // Clear API
+  function reset() {
+    for (let i in range(groupCount)) {
+      _replies[i] = Array(_replies[i].length).fill(-1)
+      _isSubmitted[i] = false
+    }
+  }
+
+  // Query and update database
+  async function _initialize() {
+    if (id === null) return;
+
+    try {
+      const user = await getUser(id);
+      if (user?.video?.length !== 0) {
+        for (let i in range(groupCount)) {
+          _replies[i] = user?.video?.[i]!
+          _isSubmitted[i] = user?.videoSubmitted?.[i]!
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function _updateDatabase() {
+    if (id === null) return;
+
+    await updateUser(id, {
+      video: _replies,
+      videoSubmitted: _isSubmitted,
+    });
+  }
+
+  _initialize();
 
   return {
     groupCount,
@@ -140,5 +181,7 @@ export const useVideoStore = defineStore("video", () => {
     isSubmitted,
     isAllSubmitted,
     submit,
+
+    reset,
   };
 });

@@ -15,12 +15,18 @@
         :key="groupIndex"
       >
         <template v-slot:header>
-          <q-item-section class="text-h6"> {{ store.getGroup(groupIndex).topic }} </q-item-section>
+          <q-item-section class="text-h6">
+            {{ store.getGroup(groupIndex).topic }}
+          </q-item-section>
           <q-item-section side>
-            <div v-if="store.isSubmitted(groupIndex)" class="text-green">已完成</div>
-            <div v-else-if="store.isGroupDone(groupIndex)" class="text-yellow">未提交</div>
+            <div v-if="store.isSubmitted(groupIndex)" class="text-green">
+              已完成
+            </div>
+            <div v-else-if="store.isGroupDone(groupIndex)" class="text-yellow">
+              未提交
+            </div>
             <div v-else>未完成</div>
-          </q-item-section>          
+          </q-item-section>
         </template>
         <ProgressOverviewItem
           @click="enterVideo(groupIndex, -1)"
@@ -52,6 +58,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useVideoStore } from "@/store/video";
 import { range } from "@/utils/common";
@@ -60,7 +67,7 @@ import ProgressOverviewItem from "@/containers/ProgressOverviewItem.vue";
 
 const router = useRouter();
 const store = useVideoStore();
-const allSubmit = store.isAllSubmitted;
+const allSubmit = computed(() => store.isAllSubmitted);
 
 function enterVideo(groupIndex: number, questionIndex: number) {
   // if questionIndex == -1, go to watch video
@@ -80,5 +87,4 @@ function nextPhase() {
     });
   }
 }
-
 </script>
