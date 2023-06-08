@@ -15,8 +15,3 @@ export interface QuestionInfo {
   questionIndex: number;
   groupIndex?: number;
 }
-
-export type ChoiceAnswer = {
-  hide: boolean,
-  answer: number,
-}

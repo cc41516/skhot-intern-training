@@ -7,6 +7,7 @@
       :index="index"
       :reply="reply"
       :answer="answer"
+      :isSubmitted="isSubmitted"
       @select="updateReply"
     />
   </div>
@@ -14,14 +15,14 @@
 
 <script setup lang="ts">
 import QuestionChoiceOption from "@/components/QuestionChoiceOption.vue";
-import { ChoiceAnswer } from "@/global"
 
 interface Props {
   options: string[];
   reply: number;
-  answer: ChoiceAnswer;
+  answer: number;
+  isSubmitted: boolean;
 }
-const props = defineProps<Props>();
+defineProps<Props>();
 const emit = defineEmits<{
   (e: "select", reply: number): void;
 }>();

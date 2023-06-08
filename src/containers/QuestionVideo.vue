@@ -7,6 +7,7 @@
       :options="options"
       :reply="reply"
       :answer="answer"
+      :isSubmitted="isSubmitted"
       @select="updateReply"
     />
   </div>
@@ -17,7 +18,6 @@ import { computed } from "vue";
 import { useVideoStore } from "@/store/video";
 import QuestionStatement from "@/components/QuestionStatement.vue";
 import QuestionChoiceOptions from "@/components/QuestionChoiceOptions.vue";
-import { ChoiceAnswer } from "@/global";
 
 interface Props {
   groupIndex: number;
@@ -29,10 +29,8 @@ const store = useVideoStore();
 const { video } = store.getGroup(props.groupIndex);
 let statement: string = "請看完下列影片，再回答後續問題。"; // watching video
 let options: string[] = [];
-const answer: ChoiceAnswer = {
-  hide: !store.isSubmitted(props.groupIndex),
-  answer: store.getAnswer(props.groupIndex, props.questionIndex)
-}
+const answer: number = store.getAnswer(props.groupIndex, props.questionIndex);
+const isSubmitted = computed(() => store.isSubmitted(props.groupIndex));
 
 if (props.questionIndex >= 0) {
   // questions

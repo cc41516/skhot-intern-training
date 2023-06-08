@@ -3,9 +3,9 @@
     @click="selectOption"
     class="row items-center option-border cursor-pointer q-pa-md"
     :class="{
-      'selected-option': isSelected && answer.hide,
+      'selected-option': isSelected && !isSubmitted,
       'wrong-option': showWrong,
-      'correct-option': showCorrect && reply === answer.answer,
+      'correct-option': showCorrect && reply === answer,
     }"
   >
     <div class="col-1 text-weight-regular">
@@ -23,24 +23,27 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { ChoiceAnswer } from "@/global";
 
 interface Props {
   content: string;
   index: number;
   reply: number;
-  answer: ChoiceAnswer;
+  answer: number;
+  isSubmitted: boolean;
 }
 
 const props = defineProps<Props>();
 const symbol = String.fromCharCode("A".charCodeAt(0) + props.index);
-const isSelected = computed(() => props.index == props.reply);
-const showCorrect: boolean =
-  !props.answer.hide && props.index === props.answer.answer;
-const showWrong: boolean =
-  !props.answer.hide &&
-  props.index === props.reply &&
-  props.index !== props.answer.answer;
+const isSelected = computed(() => props.index === props.reply);
+const showCorrect = computed(
+  () => props.isSubmitted && props.index === props.answer
+);
+const showWrong = computed(
+  () =>
+    props.isSubmitted &&
+    props.index === props.reply &&
+    props.index !== props.answer
+);
 
 const emit = defineEmits<{
   (e: "select", val: number): void;

@@ -23,7 +23,7 @@
     </q-list>
 
     <div v-if="matchingStore.isSubmitted" class="text-h6 text-secondary">
-      得分：{{ `${matchingStore.score} / ${matchingStore.questionCount}` }}
+      得分：{{ `${matchingStore.allScore} / ${matchingStore.allCaseCount}` }}
     </div>
     <q-list class="shadow-up-1">
       <ProgressOverviewItem
