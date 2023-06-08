@@ -122,12 +122,14 @@ function createChoiceStore(phase: TestPhase) {
         await updateUser(id, {
           preChoice: _replies,
           preChoiceSubmitted: _isSubmitted.value,
+          preChoiceScore: score.value,
         });
         break;
       case TestPhase.Post:
         await updateUser(id, {
           postChoice: _replies,
           postChoiceSubmitted: _isSubmitted.value,
+          postChoiceScore: score.value,
         });
         break;
     }

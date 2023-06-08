@@ -7,7 +7,6 @@
         <q-input
           outlined
           v-model="name"
-          ref="validName"
           class="full-width"
           :rules="[(val) => !!val.trim() || '必填欄位']"
         />
@@ -17,7 +16,6 @@
         <q-input
           outlined
           v-model="graduateYear"
-          ref="validGraduateYear"
           class="full-width"
           :rules="[
             (val) => !!val.trim() || '必填欄位',

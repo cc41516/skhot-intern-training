@@ -3,6 +3,7 @@ import { QuestionType, QuestionInfo, TestPhase } from "@/global";
 import { usePreChoiceStore } from "@/store/choice";
 import { usePreMatchingStore } from "@/store/matching";
 import { useVideoStore } from "@/store/video";
+import crypto from "crypto";
 
 export function range(n: number): number[] {
   return [...Array(n).keys()];
@@ -91,4 +92,23 @@ export function getQuestionCount(
     case QuestionType.Video:
       return videoStore.groupQuestionCount(groupIndex);
   }
+}
+
+function _getCrypto () {
+  try {
+      return window.crypto
+  } catch {
+      return crypto
+  }
+}
+
+export async function hash(string: string) {
+  const envCrypto = _getCrypto()
+  const utf8 = new TextEncoder().encode(string);
+  const hashBuffer = await envCrypto.subtle.digest('SHA-256', utf8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray
+    .map((bytes) => bytes.toString(16).padStart(2, '0'))
+    .join('');
+  return hashHex;
 }

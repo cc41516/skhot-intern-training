@@ -22,6 +22,12 @@ const userSchema = new Schema({
   videoSubmitted: { type: [Boolean], default: [] },
   preMatchingSubmitted: { type: Boolean, default: false },
   postMatchingSubmitted: { type: Boolean, default: false },
+
+  preChoiceScore: { type: Number, default: 0 },
+  postChoiceScore: { type: Number, default: 0 },
+  videoScore: { type: Number, default: 0 },
+  preMatchingScore: { type: Number, default: 0 },
+  postMatchingScore: { type: Number, default: 0 },
 });
 
 const User = model("User", userSchema);

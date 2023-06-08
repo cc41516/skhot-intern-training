@@ -16,6 +16,12 @@ interface UserRecord {
   videoSubmitted?: boolean[];
   preMatchingSubmitted?: boolean;
   postMatchingSubmitted?: boolean;
+
+  preChoiceScore?: number,
+  postChoiceScore?: number,
+  videoScore?: number,
+  preMatchingScore?: number,
+  postMatchingScore?: number,  
 }
 
 export interface User extends UserRecord {

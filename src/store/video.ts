@@ -152,6 +152,7 @@ export const useVideoStore = defineStore("video", () => {
     await updateUser(id, {
       video: _replies,
       videoSubmitted: _isSubmitted,
+      videoScore: allScore.value,
     });
   }
 

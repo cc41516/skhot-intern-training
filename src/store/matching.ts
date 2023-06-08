@@ -169,12 +169,14 @@ function createMatchingStore(phase: TestPhase) {
         await updateUser(id, {
           preMatching: _replies,
           preMatchingSubmitted: _isSubmitted.value,
+          preMatchingScore: score.value,
         });
         break;
       case TestPhase.Post:
         await updateUser(id, {
           postMatching: _replies,
           postMatchingSubmitted: _isSubmitted.value,
+          postMatchingScore: score.value,
         });
         break;
     }
