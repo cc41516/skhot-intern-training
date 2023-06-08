@@ -150,12 +150,8 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _) => {
-  if (to.name === 'admin') {
-    return
-  }
-
   const id = localStorage.getItem("id");
-  if (id === null && to.name !== "login") {
+  if (id === null && to.name !== "login" && to.name !== 'admin') {
     return { name: "login" };
   }
 });

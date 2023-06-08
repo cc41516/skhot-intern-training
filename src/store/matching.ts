@@ -52,11 +52,19 @@ function createMatchingStore(phase: TestPhase) {
 
   // Done API
   function isDone(index: number): boolean {
-    const blankCount: number = caseCount(index) + indicationCount(index);
-    const doneCount: number =
+    const _blankCount: number = caseCount(index) + indicationCount(index);
+    const _doneCount: number =
       _replies[index].map((item) => item.name).flat().length +
       _replies[index].map((item) => item.indication).flat().length;
-    return blankCount === doneCount;
+    return _blankCount === _doneCount;
+  }
+
+  function isPartiallyDone(index: number): boolean {
+    const _blankCount: number = caseCount(index) + indicationCount(index);
+    const _doneCount: number =
+      _replies[index].map((item) => item.name).flat().length +
+      _replies[index].map((item) => item.indication).flat().length;
+    return _doneCount > 0 && _doneCount < _blankCount
   }
 
   const doneCount = computed(() => {
@@ -200,6 +208,7 @@ function createMatchingStore(phase: TestPhase) {
     indicationCount,
 
     isDone,
+    isPartiallyDone,
     doneCount,
     isAllDone,
 

@@ -33,6 +33,7 @@
         icon="swap_horiz"
         :label="`配合題 ${index + 1}`"
         :isDone="matchingStore.isDone(index)"
+        :isPartiallyDone="matchingStore.isPartiallyDone(index)"
         :isCorrect="matchingStore.isCorrect(index)"
         :isSubmitted="matchingStore.isSubmitted"
         :iconProps="{ size: 'lg' }"
