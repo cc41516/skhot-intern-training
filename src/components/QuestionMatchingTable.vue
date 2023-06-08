@@ -9,12 +9,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(reply, index) in currReply" :key="index" class="row">
+        <tr v-for="(caseReply, index) in currReply" :key="index" class="row">
           <td class="col-3 text-center">
             <img :src="images[index]" class="full-width" />
           </td>
           <draggable
-            :list="reply.name"
+            v-if="!isSubmitted"
+            :list="caseReply.name"
             :group="{
               name: 'name',
               put: checkPutName,
@@ -25,11 +26,19 @@
             v-bind="dragContainerOptions"
           >
             <template #item="{ element }">
-              <MatchingChip :label="element" v-bind="{draggable: !isSubmitted}"/>
+              <MatchingChip :label="element" />
             </template>
           </draggable>
+          <AnswerMatchingTd
+            v-else
+            :reply="caseReply.name"
+            :answer="cases[index].name"
+            class="col-3 scroll hide-scrollbar"
+          />
+
           <draggable
-            :list="reply.indication"
+            v-if="!isSubmitted"
+            :list="caseReply.indication"
             group="indication"
             tag="td"
             :component-data="{
@@ -39,9 +48,15 @@
             v-bind="dragContainerOptions"
           >
             <template #item="{ element }">
-              <MatchingChip :label="element" v-bind="{draggable: !isSubmitted}"/>
+              <MatchingChip :label="element" />
             </template>
           </draggable>
+          <AnswerMatchingTd
+            v-else
+            :reply="caseReply.indication"
+            :answer="cases[index].indication"
+            class='col-6 column items-start scroll hide-scrollbar'
+          />
         </tr>
       </tbody>
     </q-markup-table>
@@ -55,9 +70,10 @@
         class="col-11 q-my-lg"
       >
         <template #item="{ element }">
-          <MatchingChip :label="element" v-bind="{draggable: !isSubmitted}"/>
+          <MatchingChip :label="element" :isSubmitted="isSubmitted" :color="isSubmitted ? 'red' : ''" />
         </template>
       </draggable>
+      
       <div class="col-1 text-h6">適應症</div>
       <draggable
         :list="remainingIndications"
@@ -66,7 +82,7 @@
         class="col-11 q-my-lg"
       >
         <template #item="{ element }">
-          <MatchingChip :label="element" v-bind="{draggable: !isSubmitted}"/>
+          <MatchingChip :label="element" :isSubmitted="isSubmitted" :color="isSubmitted ? 'red' : ''" />
         </template>
       </draggable>
     </div>
@@ -74,9 +90,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { ref, computed, toRef } from "vue";
 import draggable from "vuedraggable";
 import { MatchingCase, MatchingCaseReply } from "@/store/matching";
+import AnswerMatchingTd from "./AnswerMatchingTd.vue";
 import MatchingChip from "./MatchingChip.vue";
 import { shuffle, getImageUrl } from "@/utils/common.ts";
 
@@ -90,23 +107,23 @@ const props = defineProps<Props>();
 const emit = defineEmits<{
   (e: "select", reply: MatchingCaseReply[]): void;
 }>();
-
-// manipulate currReply to render the page, and when it changes, emit an event to update MatchingStore
-const currReply: MatchingCaseReply[] = reactive(props.reply);
+// currReply will fetch the reply from database at the beginning,
+// and we can manipulate currReply to render the page, and when it changes, emit an event to update MatchingStore
+const currReply = toRef(props, 'reply');
 
 const _allNames: string[] = getItems(props.cases, "name");
 const _allIndications: string[] = getItems(props.cases, "indication");
 shuffle(_allNames);
 shuffle(_allIndications);
-const _allReplyNames: string[] = getItems(currReply, "name");
-const _allReplyIndications: string[] = getItems(currReply, "indication");
+const _allReplyNames = computed(() => getItems(currReply.value, "name"));
+const _allReplyIndications = computed(() => getItems(currReply.value, "indication"));
 
 const images: string[] = props.cases.map((c) => getImageUrl(c.image));
-const remainingNames: string[] = reactive(
-  _allNames.filter((item) => !_allReplyNames.includes(item))
+const remainingNames = computed(() =>
+  _allNames.filter((item) => !_allReplyNames.value.includes(item))
 );
-const remainingIndications: string[] = reactive(
-  _allIndications.filter((item) => !_allReplyIndications.includes(item))
+const remainingIndications = computed(() =>
+  _allIndications.filter((item) => !_allReplyIndications.value.includes(item))
 );
 
 // draggable configurations
@@ -138,7 +155,7 @@ function getItems(
 }
 
 function updateReply() {
-  emit("select", currReply);
+  emit("select", currReply.value);
 }
 </script>
 

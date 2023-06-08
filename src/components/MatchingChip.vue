@@ -5,7 +5,8 @@
     square
     size="lg"
     :ripple="false"
-    :class="draggable ? 'cursor-pointer' : 'no-pointer-events'"
+    :color="color"
+    :class="isSubmitted ? 'no-pointer-events' : 'cursor-pointer'"
   >
     {{ label }}
   </q-chip>
@@ -14,7 +15,8 @@
 <script setup lang="ts">
 interface Props {
   label?: string;
-  draggable?: boolean;
+  color?: string;
+  isSubmitted?: boolean
 }
 
 defineProps<Props>();

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { reactive, computed, ref } from "vue";
 import matchingJson from "@/assets/questions/Matching.json";
-import { equalSet, range, sum } from "@/utils/common";
+import { equalArray, range, sum } from "@/utils/common";
 import { TestPhase } from "@/global";
 import { updateUser, getUser } from "@/server/controller";
 
@@ -43,6 +43,9 @@ function createMatchingStore(phase: TestPhase) {
   function caseCount(index: number): number {
     return questions[index].cases.length;
   }
+  const allCaseCount = computed(() => {
+    return range(questionCount).reduce((prev, curr) => prev + caseCount(curr), 0);
+  })
   function indicationCount(index: number): number {
     return sum(questions[index].cases.map((q) => q.indication.length));
   }
@@ -89,28 +92,34 @@ function createMatchingStore(phase: TestPhase) {
     }));
   }
 
-  function isCorrect(index: number): boolean {
-    const nameReply = _replies[index].map((q) => new Set(q.name));
-    const nameAnswer = questions[index].cases.map((q) => new Set(q.name));
-    const indicationReply = _replies[index].map((q) => new Set(q.indication));
-    const indicationAnswer = questions[index].cases.map(
-      (q) => new Set(q.indication)
+  function isCaseCorrect(quesIndex: number, caseIndex: number): boolean {
+    const nameReply: string[] = _replies[quesIndex][caseIndex].name;
+    const nameAnswer: string[] = questions[quesIndex].cases[caseIndex].name;
+    const indicationReply: string[] = _replies[quesIndex][caseIndex].indication;
+    const indicationAnswer = questions[quesIndex].cases[caseIndex].indication;
+
+    return (
+      equalArray(nameReply.sort(), nameAnswer.sort()) &&
+      equalArray(indicationReply.sort(), indicationAnswer.sort())
     );
-
-    for (let i = 0; i < nameAnswer.length; i++) {
-      if (!equalSet(nameReply[i], nameAnswer[i])) return false;
-      if (!equalSet(indicationReply[i], indicationAnswer[i])) return false;
-    }
-
-    return true;
   }
 
-  const score = computed(() => {
-    let score = 0;
-    range(questionCount).map((i) => {
-      if (isDone(i) && isCorrect(i)) score++;
+  function isCorrect(quesIndex: number): boolean {
+    return range(questions[quesIndex].cases.length).every((_, index) => {
+      return isCaseCorrect(quesIndex, index);
+    });
+  }
+
+  function score(quesIndex: number): number {
+    let score: number = 0;
+    range(questions[quesIndex].cases.length).map((i) => {
+      if (isCaseCorrect(quesIndex, i)) score++;
     });
     return score;
+  }
+
+  const allScore = computed(() => {
+    return range(questionCount).reduce((prev, curr) => prev + score(curr), 0);
   });
 
   // Submit API
@@ -142,16 +151,16 @@ function createMatchingStore(phase: TestPhase) {
         case TestPhase.Pre:
           if (user?.preMatching?.length !== 0) {
             _replies.forEach((_, index, arr) => {
-              arr[index] = user?.preMatching?.[index]!
-            })
+              arr[index] = user?.preMatching?.[index]!;
+            });
             _isSubmitted.value = user?.preMatchingSubmitted!;
           }
           break;
         case TestPhase.Post:
           if (user?.postMatching?.length !== 0) {
             _replies.forEach((_, index, arr) => {
-              arr[index] = user?.postMatching?.[index]!
-            })
+              arr[index] = user?.postMatching?.[index]!;
+            });
             _isSubmitted.value = user?.postMatchingSubmitted!;
           }
           break;
@@ -169,14 +178,14 @@ function createMatchingStore(phase: TestPhase) {
         await updateUser(id, {
           preMatching: _replies,
           preMatchingSubmitted: _isSubmitted.value,
-          preMatchingScore: score.value,
+          preMatchingScore: allScore.value,
         });
         break;
       case TestPhase.Post:
         await updateUser(id, {
           postMatching: _replies,
           postMatchingSubmitted: _isSubmitted.value,
-          postMatchingScore: score.value,
+          postMatchingScore: allScore.value,
         });
         break;
     }
@@ -187,6 +196,7 @@ function createMatchingStore(phase: TestPhase) {
   return {
     questionCount,
     caseCount,
+    allCaseCount,
     indicationCount,
 
     isDone,
@@ -198,8 +208,10 @@ function createMatchingStore(phase: TestPhase) {
     getReply,
 
     getAnswer,
+    isCaseCorrect,
     isCorrect,
     score,
+    allScore,
 
     isSubmitted,
     submit,

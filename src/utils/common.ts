@@ -29,6 +29,15 @@ export function equalSet(A: Set<any>, B: Set<any>): boolean {
   return A.size === B.size && [...A].every((e) => B.has(e));
 }
 
+export function equalArray(A: Array<any>, B: Array<any>): boolean {
+  return (
+    A.length === B.length &&
+    A.every((element, index) => {
+      return element === B[index];
+    })
+  );
+}
+
 export function getImageUrl(name: string) {
   return new URL(`../assets/images/${name}`, import.meta.url).href;
 }
@@ -94,21 +103,21 @@ export function getQuestionCount(
   }
 }
 
-function _getCrypto () {
+function _getCrypto() {
   try {
-      return window.crypto
+    return window.crypto;
   } catch {
-      return crypto
+    return crypto;
   }
 }
 
 export async function hash(string: string) {
-  const envCrypto = _getCrypto()
+  const envCrypto = _getCrypto();
   const utf8 = new TextEncoder().encode(string);
-  const hashBuffer = await envCrypto.subtle.digest('SHA-256', utf8);
+  const hashBuffer = await envCrypto.subtle.digest("SHA-256", utf8);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashHex = hashArray
-    .map((bytes) => bytes.toString(16).padStart(2, '0'))
-    .join('');
+    .map((bytes) => bytes.toString(16).padStart(2, "0"))
+    .join("");
   return hashHex;
 }
