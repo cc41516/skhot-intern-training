@@ -16,12 +16,9 @@
           <draggable
             v-if="!isSubmitted"
             :list="caseReply.name"
-            :group="{
-              name: 'name',
-              put: checkPutName,
-            }"
+            group="name"
             tag="td"
-            :component-data="{ className: 'col-3 scroll hide-scrollbar' }"
+            :component-data="{ className: 'col-3 column items-start scroll hide-scrollbar' }"
             @change="updateReply"
             v-bind="dragContainerOptions"
           >
@@ -33,7 +30,7 @@
             v-else
             :reply="caseReply.name"
             :answer="cases[index].name"
-            class="col-3 scroll hide-scrollbar"
+            class="col-3 column items-start scroll hide-scrollbar"
           />
 
           <draggable
@@ -132,6 +129,7 @@ const dragContainerOptions = {
   ghostClass: "ghost",
   chosenClass: "chosen",
   animation: 200,
+  forceFallback: true,
   onStart: () => (drag.value = true),
   onEnd: () => (drag.value = false),
 };

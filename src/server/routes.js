@@ -9,7 +9,7 @@ router.post("/create", async (req, res) => {
   const user = new User({
     id: crypto.randomUUID(),
     name: req.body.name,
-    graduateYear: req.body.graduateYear,
+    internYear: req.body.internYear,
     order: req.body.order,
   });
 

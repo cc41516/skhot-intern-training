@@ -9,7 +9,7 @@
     }"
   >
     <div class="col-1 text-weight-regular">
-      <q-avatar color="secondary" font-size="1.4rem">{{ symbol }}</q-avatar>
+      <q-avatar color="secondary" text-color="white" font-size="1.4rem">{{ symbol }}</q-avatar>
     </div>
     <div class="col-9 text-h6">
       {{ content }}
@@ -60,7 +60,7 @@ function selectOption() {
   border-radius: 999px;
 }
 .option-border:hover {
-  background-color: $grey-10;
+  background-color: $grey-3;
 }
 .selected-option {
   border-color: $secondary;

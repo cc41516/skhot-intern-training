@@ -4,17 +4,20 @@
       <div class="text-h2 q-py-lg">{{ post ? "後測" : "前測" }}</div>
       <div><q-btn flat label="Home" to="/home" /></div>
     </div>
-    <div class="text-h5 text-bold">請依序完成下列題目：</div>
-
-    <div v-if="choiceStore.isSubmitted" class="text-h6 text-secondary">
-      得分：{{ `${choiceStore.score} / ${choiceStore.questionCount}` }}
+    <div class="text-h5 text-bold q-py-md">請依序完成下列題目：</div>
+    <div class="text-h6">
+      <span>選擇題</span>
+      <span v-if="choiceStore.isSubmitted" class="text-secondary">
+        （得分：{{ `${choiceStore.score} / ${choiceStore.questionCount}` }}）
+      </span>
     </div>
-    <q-list class="shadow-up-1">
+    <q-list class="">
+      <q-separator />
       <ProgressOverviewItem
         v-for="index in range(choiceStore.questionCount)"
         :key="index"
         @click="enterChoice(index)"
-        icon="radio_button_checked"
+        icon="format_list_bulleted"
         :label="`選擇題 ${index + 1}`"
         :isDone="choiceStore.isDone(index)"
         :isCorrect="choiceStore.isCorrect(index)"
@@ -22,10 +25,14 @@
       />
     </q-list>
 
-    <div v-if="matchingStore.isSubmitted" class="text-h6 text-secondary">
-      得分：{{ `${matchingStore.allScore} / ${matchingStore.allCaseCount}` }}
+    <div class="text-h6">
+      <span>配合題</span>
+      <span v-if="matchingStore.isSubmitted" class="text-secondary">
+        （得分：{{ `${matchingStore.allScore} / ${matchingStore.allCaseCount}` }}）
+      </span>
     </div>
-    <q-list class="shadow-up-1">
+    <q-list>
+      <q-separator />
       <ProgressOverviewItem
         v-for="index in range(matchingStore.questionCount)"
         :key="index"
@@ -93,7 +100,7 @@ function enterMatching(index: number) {
 }
 
 function nextPhase() {
-  if (allSubmit) {
+  if (allSubmit.value) {
     router.push({
       name: props.post ? "home" : "midTest",
     });

@@ -2,9 +2,9 @@
   <div>
     <QuestionStatement :content="statement" />
     <div v-if="isSubmitted" class="row text-h6 q-pa-md">
-      <div class="col-2 text-green">綠色：正確答案</div>
-      <div class="col-2 text-red">紅色：錯誤答案</div>
-      <div class="col-2 text-blue">藍色：該選而未選</div>
+      <div class="col-3 text-green">綠色：正確答案</div>
+      <div class="col-3 text-red">紅色：錯誤答案</div>
+      <div class="col-3 text-blue">藍色：該選而未選</div>
     </div>
     <QuestionMatchingTable
       :cases="cases"

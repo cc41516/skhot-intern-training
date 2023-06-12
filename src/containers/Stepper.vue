@@ -23,14 +23,28 @@
       v-if="questionIndex === questionCount - 1"
       unelevated
       color="secondary"
-      @click="done"
+      @click="toggleDonePrompt()"
     >
       完成
     </q-btn>
+
+    <q-dialog v-model="donePrompt">
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-subtitle1">點擊完成之後就會提交這一大題的答案，確定嗎？</div>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="取消" color="secondary" v-close-popup />
+          <q-btn flat label="確定" color="secondary" v-close-popup @click="done" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { parseRoute, getQuestionCount } from "@/utils/common";
 import { QuestionType, TestPhase } from "@/global";
 import router from "@/router";
@@ -42,6 +56,13 @@ const { testPhase, questionType, questionIndex, groupIndex } = parseRoute();
 const questionCount = getQuestionCount(questionType, groupIndex);
 let phaseName: string = "";
 let typeName: string = "";
+const donePrompt = ref(false)
+
+const preChoiceStore = usePreChoiceStore()
+const postChoiceStore = usePostChoiceStore()
+const videoStore = useVideoStore()
+const preMatchingStore = usePreMatchingStore()
+const postMatchingStore = usePostMatchingStore()
 
 switch (testPhase) {
   case TestPhase.Pre:
@@ -92,26 +113,52 @@ function done() {
   switch (testPhase) {
     case TestPhase.Pre:
       if (questionType === QuestionType.Choice) {
-        usePreChoiceStore().submit();
+        preChoiceStore.submit();
       }
       if (questionType === QuestionType.Matching) {
-        usePreMatchingStore().submit();
+        preMatchingStore.submit();
       }
       break;
     case TestPhase.Mid:
       if (questionType === QuestionType.Video) {
-        useVideoStore().submit(groupIndex);
+        videoStore.submit(groupIndex);
       }
       break;
     case TestPhase.Post:
       if (questionType === QuestionType.Choice) {
-        usePostChoiceStore().submit();
+        postChoiceStore.submit();
       }
       if (questionType === QuestionType.Matching) {
-        usePostMatchingStore().submit();
+        postMatchingStore.submit();
       }
       break;
   }
   router.push({ name: phaseName });
+}
+
+function toggleDonePrompt() {
+  switch (testPhase) {
+    case TestPhase.Pre:
+      if (questionType === QuestionType.Choice && !preChoiceStore.isSubmitted) {
+        donePrompt.value = !donePrompt.value;
+      }
+      if (questionType === QuestionType.Matching && !preMatchingStore.isSubmitted) {
+        donePrompt.value = !donePrompt.value;
+      }
+      break;
+      case TestPhase.Mid:
+        if (questionType === QuestionType.Video && !videoStore.isSubmitted(groupIndex)) {
+        donePrompt.value = !donePrompt.value;
+      }
+      break;
+    case TestPhase.Post:
+    if (questionType === QuestionType.Choice && !postChoiceStore.isSubmitted) {
+        donePrompt.value = !donePrompt.value;
+      }
+      if (questionType === QuestionType.Matching && !postMatchingStore.isSubmitted) {
+        donePrompt.value = !donePrompt.value;
+      }
+      break;
+  }
 }
 </script>

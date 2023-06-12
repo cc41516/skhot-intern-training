@@ -27,13 +27,13 @@ interface UserRecord {
 export interface User extends UserRecord {
   id: string;
   name: string;
-  graduateYear: string;
+  internYear: string;
   order: string;
 }
 
 export async function createUser(
   name: string,
-  graduateYear: number,
+  internYear: number,
   order: number
 ): Promise<string | null> {
   // Since localStorage.getItem return null when key does not exist,
@@ -42,7 +42,7 @@ export async function createUser(
   try {
     const { data } = await axios.post("/api/create", {
       name: name,
-      graduateYear: graduateYear,
+      internYear: internYear,
       order: order,
     });
     id = data.id;

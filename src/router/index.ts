@@ -6,9 +6,9 @@ import PreTestPage from "@/pages/PreTestPage.vue";
 import MidTestPage from "@/pages/MidTestPage.vue";
 import PostTestPage from "@/pages/PostTestPage.vue";
 import QuestionPage from "@/pages/QuestionPage.vue";
-import ScorePage from "@/pages/ScorePage.vue";
 import AdminPage from "@/pages/AdminPage.vue";
 import { QuestionType, TestPhase } from "@/global";
+import { getPhaseDoneStatus } from "@/utils/common";
 
 const routes = [
   // ========================== First Time Login Page ==========================
@@ -67,6 +67,10 @@ const routes = [
   {
     path: "/mid-test",
     component: EmptyRouterView,
+    beforeEnter: async () => {
+      const { preTestDone } = await getPhaseDoneStatus()
+      if (!preTestDone) return { name: 'home' }
+    },
     children: [
       {
         path: "",
@@ -92,6 +96,10 @@ const routes = [
   {
     path: "/post-test",
     component: EmptyRouterView,
+    beforeEnter: async () => {
+      const { preTestDone, midTestDone } = await getPhaseDoneStatus()
+      if (!preTestDone || !midTestDone) return { name: 'home' }
+    },
     children: [
       {
         path: "",
@@ -123,12 +131,6 @@ const routes = [
         },
       },
     ],
-  },
-  // ========================== Score Page ==========================
-  {
-    path: "/score",
-    name: "score",
-    component: ScorePage,
   },
   // ========================== Admin Page ==========================
   {

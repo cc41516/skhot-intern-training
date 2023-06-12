@@ -8,13 +8,14 @@
       <q-item-section side>
         <div v-if="naq" />
         <div v-else-if="!isSubmitted">
-          <div v-if="isPartiallyDone" class="text-yellow">未完成</div>
+          <div v-if="isPartiallyDone" class="text-orange">未完成</div>
           <div v-else-if="!isDone">未作答</div>
-          <div v-else class="text-yellow">未提交</div>
+          <div v-else class="text-orange">未提交</div>
         </div>
         <div v-else>
           <div v-if="isCorrect" class="text-green">正確</div>
           <div v-else-if="isPartiallyDone" class="text-red">未完成</div>
+          <div v-else-if="!isDone" class="text-red">未作答</div>
           <div v-else class="text-red">錯誤</div>
         </div>
       </q-item-section>

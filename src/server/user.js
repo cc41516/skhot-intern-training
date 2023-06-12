@@ -8,7 +8,7 @@ const MatchingCaseReplySchema = new Schema({
 const userSchema = new Schema({
   id: String,
   name: String,
-  graduateYear: Number,
+  internYear: Number,
   order: Number,
 
   preChoice: { type: [Number], default: [] },

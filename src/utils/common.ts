@@ -4,6 +4,7 @@ import { usePreChoiceStore } from "@/store/choice";
 import { usePreMatchingStore } from "@/store/matching";
 import { useVideoStore } from "@/store/video";
 import crypto from "crypto";
+import { getUser } from "@/server/controller";
 
 export function range(n: number): number[] {
   return [...Array(n).keys()];
@@ -100,6 +101,23 @@ export function getQuestionCount(
       return matchingStore.questionCount;
     case QuestionType.Video:
       return videoStore.groupQuestionCount(groupIndex);
+  }
+}
+
+export async function getPhaseDoneStatus(): Promise<any> {
+  const id = localStorage.getItem("id");
+  let user;
+  if (id !== null) {
+    try {
+      user = await getUser(id)
+      return {
+        preTestDone: !!user?.preChoiceSubmitted && !!user?.preMatchingSubmitted,
+        midTestDone: !!user?.videoSubmitted?.length && !!user?.videoSubmitted?.every(e => e),
+        postTestDone: !!user?.postChoiceSubmitted && !!user?.postMatchingSubmitted,
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
