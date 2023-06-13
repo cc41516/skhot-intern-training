@@ -17,11 +17,11 @@ interface UserRecord {
   preMatchingSubmitted?: boolean;
   postMatchingSubmitted?: boolean;
 
-  preChoiceScore?: number,
-  postChoiceScore?: number,
-  videoScore?: number,
-  preMatchingScore?: number,
-  postMatchingScore?: number,  
+  preChoiceScore?: number;
+  postChoiceScore?: number;
+  videoScore?: number;
+  preMatchingScore?: number;
+  postMatchingScore?: number;
 }
 
 export interface User extends UserRecord {
@@ -29,6 +29,7 @@ export interface User extends UserRecord {
   name: string;
   internYear: string;
   order: string;
+  feedbacks: string[];
 }
 
 export async function createUser(
@@ -74,6 +75,20 @@ export async function getUser(id: string): Promise<User | undefined> {
 export async function updateUser(id: string, record: UserRecord) {
   try {
     await axios.patch(`/api/update/${id}`, record);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updateUserFeedback(id: string, feedback: string) {
+  try {
+    const user: User | undefined = await getUser(id);
+    let feedbacks: string[] | undefined = user?.feedbacks;
+    feedbacks?.push(feedback);
+    const { status } = await axios.patch(`/api/update/${id}`, {
+      feedbacks: feedbacks,
+    });
+    return status === 200;
   } catch (error) {
     console.log(error);
   }

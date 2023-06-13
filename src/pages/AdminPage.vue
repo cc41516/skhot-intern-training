@@ -29,12 +29,24 @@
               />
             </q-td>
           </template>
+          <template v-slot:body-cell-feedbacks="props">
+            <q-td :props="props">
+              <div v-if="props.value.length === 0"> - </div>
+              <div v-else>
+                <q-btn
+                flat
+                  :label="`${props.value.length} 則`"
+                  @click="onShowingFeedback(props.value)"
+                />
+              </div>
+            </q-td>
+          </template>
           <template v-slot:body-cell-delete="props">
             <q-td :props="props">
               <q-btn
                 flat
                 label="刪除紀錄"
-                @click="onDeleting(props.row.id)"
+                @click="onDeletingUser(props.row.id)"
                 size="md"
                 color="negative"
               />
@@ -61,6 +73,16 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
+
+      <q-dialog v-model="showFeedbacksPrompt">
+        <q-card class="q-pa-md">
+          <q-list separator>
+            <q-item v-for="(feedback, index) in toBeShowedFeedbacks" :key="index">
+              {{ feedback }}
+            </q-item>
+          </q-list>
+        </q-card>
+      </q-dialog>
     </div>
   </PageWrapper>
 </template>
@@ -68,10 +90,7 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import {
-  getAllUsers,
-  deleteUser,
-} from "../server/controller.ts";
+import { getAllUsers, deleteUser } from "../server/controller.ts";
 import { QTableColumn } from "quasar";
 import PageWrapper from "@/containers/PageWrapper.vue";
 import { usePreChoiceStore, usePostChoiceStore } from "@/store/choice";
@@ -88,22 +107,24 @@ interface FinalScoredUser extends User {
 
 const router = useRouter();
 
-const preChoiceStore = usePreChoiceStore()
-const postChoiceStore = usePostChoiceStore()
-const videoStore = useVideoStore()
-const preMatchingStore = usePreMatchingStore()
-const postMatchingStore = usePostMatchingStore()
+const preChoiceStore = usePreChoiceStore();
+const postChoiceStore = usePostChoiceStore();
+const videoStore = useVideoStore();
+const preMatchingStore = usePreMatchingStore();
+const postMatchingStore = usePostMatchingStore();
 
 const password = ref("");
 const isAdmin = ref(false);
 const deleteUserPrompt = ref(false);
 const toBeDeletedId = ref("");
+const showFeedbacksPrompt = ref(false);
+const toBeShowedFeedbacks = ref(Array<string>());
 
 let users: FinalScoredUser[] = reactive([]);
 const bodyStyle: string = "font-size: 14px";
 const headerStyle: string = "font-size: 16px";
 let columns: QTableColumn[] = [
-  { name: "name", label: "姓名", align: "center", field: "name" },
+  { name: "name", label: "姓名", field: "name" },
   {
     name: "internYear",
     label: "畢業學年度",
@@ -113,7 +134,9 @@ let columns: QTableColumn[] = [
   { name: "order", label: "梯次", field: "order", sortable: true },
   {
     name: "preScore",
-    label: `前測（${preChoiceStore.questionCount + preMatchingStore.allCaseCount}分）`,
+    label: `前測（${
+      preChoiceStore.questionCount + preMatchingStore.allCaseCount
+    }分）`,
     field: "preScore",
     sortable: true,
   },
@@ -125,14 +148,21 @@ let columns: QTableColumn[] = [
   },
   {
     name: "postScore",
-    label: `後測（${postChoiceStore.questionCount + postMatchingStore.allCaseCount}分）`,
+    label: `後測（${
+      postChoiceStore.questionCount + postMatchingStore.allCaseCount
+    }分）`,
     field: "postScore",
     sortable: true,
+  },
+  {
+    name: "feedbacks",
+    label: `意見回饋`,
+    field: "feedbacks",
   },
   { name: "delete", label: "", field: "name" },
 ];
 columns = columns.map((c) => {
-  return { ...c, style: bodyStyle, headerStyle: headerStyle };
+  return { ...c, align: 'center', style: bodyStyle, headerStyle: headerStyle };
 });
 
 onMounted(() => {
@@ -162,9 +192,9 @@ async function getData() {
     users.length = res.length;
     res.forEach((val, index) => {
       users[index] = val;
-      users[index].preScore = val.preChoiceScore! + val.preMatchingScore!
-      users[index].midScore = val.videoScore!
-      users[index].postScore = val.postChoiceScore! + val.postMatchingScore!
+      users[index].preScore = val.preChoiceScore! + val.preMatchingScore!;
+      users[index].midScore = val.videoScore!;
+      users[index].postScore = val.postChoiceScore! + val.postMatchingScore!;
     });
   } catch (error) {
     console.log(error);
@@ -176,9 +206,14 @@ function intoUser(id: string) {
   router.push({ name: "home" });
 }
 
-function onDeleting(id: string) {
+function onDeletingUser(id: string) {
   toBeDeletedId.value = id;
   deleteUserPrompt.value = true;
+}
+
+function onShowingFeedback(feedbacks: string[]) {
+  toBeShowedFeedbacks.value = feedbacks;
+  showFeedbacksPrompt.value = true;
 }
 
 async function myDeleteUser(id: string) {

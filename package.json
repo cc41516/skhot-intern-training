@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:fe": "vite",
+    "dev:be": "nodemon index.js",
     "build": "vue-tsc && vite build",
-    "server": "nodemon index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.3",

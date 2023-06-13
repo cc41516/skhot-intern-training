@@ -28,10 +28,16 @@
         :disabled="!preTestDone || !midTestDone"
       />
     </div>
-    <div v-if="postTestDone" class="text-h6 text-center q-py-lg">
-      恭喜你完成所有的學習測驗了！
+    <div v-if="postTestDone">
+      <div class="text-h6 text-center q-py-lg">
+        恭喜你完成所有的學習測驗了！
+      </div>
+      <div class="row justify-center q-pa-md">
+        <q-input v-model="feedback" label="意見回饋" filled autogrow />
+        <q-btn flat label="提交" @click="submitFeedback" class="q-mx-md" />
+      </div>
     </div>
-    
+
     <q-dialog v-model="firstTimeLoginPrompt">
       <q-card style="min-width: 350px">
         <q-card-section>
@@ -51,18 +57,23 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useQuasar } from "quasar";
 import { getImageUrl, getPhaseDoneStatus } from "@/utils/common";
-import { getUser, User } from "@/server/controller";
+import { getUser, User, updateUserFeedback } from "@/server/controller";
 import PageWrapper from "@/containers/PageWrapper.vue";
 import TestPhaseCard from "@/components/TestPhaseCard.vue";
+import { $ } from "vue/macros";
 
 const router = useRouter();
+const $q = useQuasar();
+
 const name = ref("");
 const firstTimeLoginPrompt = ref(false);
 let user: User | undefined;
 const preTestDone = ref(false);
 const midTestDone = ref(false);
 const postTestDone = ref(false);
+const feedback = ref("");
 
 onMounted(async () => {
   const id = localStorage.getItem("id");
@@ -99,6 +110,26 @@ function startMidTest() {
 function startPostTest() {
   if (preTestDone.value && midTestDone.value) {
     router.push({ name: "postTest" });
+  }
+}
+
+async function submitFeedback() {
+  const id = localStorage.getItem("id");
+  if (id !== null && feedback.value.trim().length > 0) {
+    try {
+      const succeed = await updateUserFeedback(id, feedback.value);
+      if (succeed) {
+        feedback.value = "";
+        $q.notify({
+          position: 'top',
+          message: "成功提交回饋",
+          color: "secondary",
+          timeout: 1000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 </script>

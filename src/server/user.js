@@ -10,6 +10,7 @@ const userSchema = new Schema({
   name: String,
   internYear: Number,
   order: Number,
+  feedbacks: {type: [String], default: []},
 
   preChoice: { type: [Number], default: [] },
   postChoice: { type: [Number], default: [] },
