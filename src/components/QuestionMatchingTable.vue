@@ -126,6 +126,7 @@ const remainingIndications = computed(() =>
 // draggable configurations
 const dragContainerOptions = {
   itemKey: "",
+  sort: false,
   ghostClass: "ghost",
   chosenClass: "chosen",
   animation: 200,
