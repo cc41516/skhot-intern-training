@@ -10,27 +10,27 @@
       {
         "image": "Long Opponens.png",
         "name": ["Long opponens"],
-        "indication": ["De Quervain’s tenosynovitis", "First CMC joint arthritis", "Thumb UCL/RCL reconstruction"]
+        "indication": ["De Quervain’s tenosynovitis", "first CMC joint arthritis", "thumb UCL/RCL reconstruction"]
       },
       {
         "image": "Flexor Splint.png",
         "name": ["Flexor Splint"],
-        "indication": ["Flexor Tendon Injury"]
+        "indication": ["flexor tendon injury"]
       },
       {
         "image": "Extensor Splint.png",
         "name": ["Extensor Splint"],
-        "indication": ["Extensor Tendon Injury"]
+        "indication": ["extensor tendon injury"]
       },
       {
         "image": "Resting Splint.png",
         "name": ["Resting Splint"],
-        "indication": ["Burn injury", "Functional Position", "Spasticity"]
+        "indication": ["burn injury", "functional position", "spasticity"]
       },
       {
         "image": "AAFO.png",
         "name": ["Anterior AFO"],
-        "indication": ["Drop Foot"]
+        "indication": ["drop foot"]
       }
     ]
   }
