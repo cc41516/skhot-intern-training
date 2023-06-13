@@ -62,7 +62,6 @@ import { getImageUrl, getPhaseDoneStatus } from "@/utils/common";
 import { getUser, User, updateUserFeedback } from "@/server/controller";
 import PageWrapper from "@/containers/PageWrapper.vue";
 import TestPhaseCard from "@/components/TestPhaseCard.vue";
-import { $ } from "vue/macros";
 
 const router = useRouter();
 const $q = useQuasar();
@@ -78,6 +77,7 @@ const feedback = ref("");
 onMounted(async () => {
   const id = localStorage.getItem("id");
   const loggedIn = localStorage.getItem("loggedIn");
+  const admin = sessionStorage.getItem("admin");
   if (id !== null) {
     try {
       user = await getUser(id);
@@ -91,7 +91,7 @@ onMounted(async () => {
     }
   }
 
-  if (loggedIn === null) {
+  if (loggedIn === null && admin === null) {
     firstTimeLoginPrompt.value = true;
     localStorage.setItem("loggedIn", "true");
   }
