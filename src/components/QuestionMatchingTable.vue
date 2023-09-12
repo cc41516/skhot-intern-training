@@ -4,8 +4,9 @@
       <thead>
         <tr class="row">
           <th class="text-center col-3"><div class="text-h6">圖片</div></th>
-          <th class="text-center col-3"><div class="text-h6">名稱</div></th>
-          <th class="text-center col-6"><div class="text-h6">適應症</div></th>
+          <th class="text-center col-2"><div class="text-h6">名稱</div></th>
+          <th class="text-center col-4"><div class="text-h6">情境</div></th>
+          <th class="text-center col-3"><div class="text-h6">適應症</div></th>
         </tr>
       </thead>
       <tbody>
@@ -18,7 +19,9 @@
             :list="caseReply.name"
             group="name"
             tag="td"
-            :component-data="{ className: 'col-3 column items-start scroll hide-scrollbar' }"
+            :component-data="{
+              className: 'col-2 column items-start scroll hide-scrollbar',
+            }"
             @change="updateReply"
             v-bind="dragContainerOptions"
           >
@@ -30,7 +33,29 @@
             v-else
             :reply="caseReply.name"
             :answer="cases[index].name"
-            class="col-3 column items-start scroll hide-scrollbar"
+            class="col-2 column items-start scroll hide-scrollbar"
+          />
+
+          <draggable
+            v-if="!isSubmitted"
+            :list="caseReply.scenario"
+            group="scenario"
+            tag="td"
+            :component-data="{
+              className: 'col-4 column items-start scroll hide-scrollbar',
+            }"
+            @change="updateReply"
+            v-bind="dragContainerOptions"
+          >
+            <template #item="{ element }">
+              <MatchingChip :label="element" />
+            </template>
+          </draggable>
+          <AnswerMatchingTd
+            v-else
+            :reply="caseReply.scenario"
+            :answer="cases[index].scenario"
+            class="col-4 column items-start scroll hide-scrollbar"
           />
 
           <draggable
@@ -39,7 +64,7 @@
             group="indication"
             tag="td"
             :component-data="{
-              className: 'col-6 column items-start scroll hide-scrollbar',
+              className: 'col-3 column items-start scroll hide-scrollbar',
             }"
             @change="updateReply"
             v-bind="dragContainerOptions"
@@ -52,34 +77,59 @@
             v-else
             :reply="caseReply.indication"
             :answer="cases[index].indication"
-            class='col-6 column items-start scroll hide-scrollbar'
+            class="col-3 column items-start scroll hide-scrollbar"
           />
         </tr>
       </tbody>
     </q-markup-table>
 
-    <div class="row items-center rounded-borders">
+    <div class="row items-center">
       <div class="col-1 text-h6">名稱</div>
-      <draggable
+        <draggable
         :list="remainingNames"
         group="name"
         v-bind="dragContainerOptions"
-        class="col-11 q-my-lg"
-      >
+        class="row col-11 q-my-lg"
+        >
         <template #item="{ element }">
-          <MatchingChip :label="element" :isSubmitted="isSubmitted" :color="isSubmitted ? 'red' : ''" />
+          <MatchingChip
+          :label="element"
+          :isSubmitted="isSubmitted"
+          :color="isSubmitted ? 'red' : ''"
+          />
         </template>
       </draggable>
-      
+
+
+      <div class="col-1 text-h6">情境</div>
+      <draggable
+        :list="remainingScenarios"
+        group="scenario"
+        v-bind="dragContainerOptions"
+        class="row col-11 q-my-lg"
+      >
+        <template #item="{ element }">
+          <MatchingChip
+            :label="element"
+            :isSubmitted="isSubmitted"
+            :color="isSubmitted ? 'red' : ''"
+          />
+        </template>
+      </draggable>
+
       <div class="col-1 text-h6">適應症</div>
       <draggable
         :list="remainingIndications"
         group="indication"
         v-bind="dragContainerOptions"
-        class="col-11 q-my-lg"
+        class="row col-11 q-my-lg"
       >
         <template #item="{ element }">
-          <MatchingChip :label="element" :isSubmitted="isSubmitted" :color="isSubmitted ? 'red' : ''" />
+          <MatchingChip
+            :label="element"
+            :isSubmitted="isSubmitted"
+            :color="isSubmitted ? 'red' : ''"
+          />
         </template>
       </draggable>
     </div>
@@ -106,14 +156,21 @@ const emit = defineEmits<{
 }>();
 // currReply will fetch the reply from database at the beginning,
 // and we can manipulate currReply to render the page, and when it changes, emit an event to update MatchingStore
-const currReply = toRef(props, 'reply');
+const currReply = toRef(props, "reply");
 
 const _allNames: string[] = getItems(props.cases, "name");
 const _allIndications: string[] = getItems(props.cases, "indication");
+const _allScenarios: string[] = getItems(props.cases, "scenario");
 shuffle(_allNames);
 shuffle(_allIndications);
+shuffle(_allScenarios);
 const _allReplyNames = computed(() => getItems(currReply.value, "name"));
-const _allReplyIndications = computed(() => getItems(currReply.value, "indication"));
+const _allReplyIndications = computed(() =>
+  getItems(currReply.value, "indication")
+);
+const _allReplyScenarios = computed(() =>
+  getItems(currReply.value, "scenario")
+);
 
 const images: string[] = props.cases.map((c) => getImageUrl(c.image));
 const remainingNames = computed(() =>
@@ -121,6 +178,9 @@ const remainingNames = computed(() =>
 );
 const remainingIndications = computed(() =>
   _allIndications.filter((item) => !_allReplyIndications.value.includes(item))
+);
+const remainingScenarios = computed(() =>
+  _allScenarios.filter((item) => !_allReplyScenarios.value.includes(item))
 );
 
 // draggable configurations
@@ -161,6 +221,10 @@ function updateReply() {
 <style scoped lang="scss">
 .q-table tbody td:before {
   background: none;
+}
+
+.q-table tbody td {
+  white-space: wrap;
 }
 
 .ghost {

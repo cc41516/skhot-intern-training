@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 
 const MatchingCaseReplySchema = new Schema({
   name: [String],
+  scenario: [String],
   indication: [String],
 });
 

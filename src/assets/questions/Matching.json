@@ -5,31 +5,37 @@
       {
         "image": "Cock-up.png",
         "name": ["Cock-up"],
+        "scenario": ["陳小姐是一位46歲的上班族，她需要騎車通勤並長時間坐在電腦桌前打字及操作滑鼠。近1個月她發現右手前三指有麻木感且夜間狀況加劇，影響睡眠，於是到醫院求診，經Phalen’s test檢測結果為positive，後將個案轉介至OT製作副木，請問個案可能需要何種副木？"],
         "indication": ["carpal tunnel syndrome", "radial nerve palsy", "wrist sprain or instability"]
       },
       {
         "image": "Long Opponens.png",
         "name": ["Long opponens"],
+        "scenario": ["29歲黃太太最近為了照顧新生兒辭去原本的工作成為全職家庭主婦。她每天要泡牛奶、抱著寶寶拍嗝、換尿布等，近兩週表示拇指根部接近手腕處會疼痛，且拇指活動也有不適感，影響到她照顧寶寶及打理家事，於是到醫院求診，經檢查發現她的abductor pollicis longus tendon及extensor pollicis brevis tendon有腫脹情形，後將個案轉介至OT製作副木，請問個案可能需要何種副木？"],
         "indication": ["De Quervain’s tenosynovitis", "first CMC joint arthritis", "thumb UCL/RCL reconstruction"]
       },
       {
         "image": "Flexor Splint.png",
         "name": ["Flexor Splint"],
+        "scenario": ["48歲林先生在饅頭店上班，他在早上操作機台時，右手不慎捲入，當下林先生立即被送往醫院急診，經診斷為FPS rupture of index finger, long finger and ring finger，術後便轉介至OT進行副木製作，請問個案可能需要何種副木？"],
         "indication": ["flexor tendon injury"]
       },
       {
         "image": "Extensor Splint.png",
         "name": ["Extensor Splint"],
+        "scenario": ["54歲蕭先生在工作時左手被電鋸切到，當日送至急診，診斷為EDC rupture of index finger and middle finger，並進行手術。OT於隔日接受整形外科轉介進行副木製作，請問個案可能需要何種副木？"],
         "indication": ["extensor tendon injury"]
       },
       {
         "image": "Resting Splint.png",
         "name": ["Resting Splint"],
+        "scenario": ["王先生是一位廚師，去年中風後，受手指張力較強影響，易呈現finger flexion及 thumb adduction，使無法順利抓握並操作鍋鏟、菜刀等，請問個案可能需要製作何種副木來幫助他將手部擺位在功能性姿勢？"],
         "indication": ["burn injury", "functional position", "spasticity"]
       },
       {
         "image": "AAFO.png",
         "name": ["Anterior AFO"],
+        "scenario": ["60歲簡太太，平日早上會走路送孫女到幼兒園上課，再到住家附近的菜市場買菜以準備午餐及晚餐，然而有一天早上她要下床到廁所時發現自己的右腳無力癱軟，家人立即將她送往附近醫院急診，經診斷為Left MCA infraction。個案住院接受積極治療後，目前可以使用cane移行，但她的腳在走路的時候常常會拖在地板上，請問個案可能需要何種副木？"],
         "indication": ["drop foot"]
       }
     ]

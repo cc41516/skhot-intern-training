@@ -1,15 +1,20 @@
 <template>
-  <q-chip
+  <q-card
     v-if="label"
-    outline
-    square
-    size="lg"
-    :ripple="false"
+    flat
+    bordered
     :color="color"
-    :class="isSubmitted ? 'no-pointer-events' : 'cursor-pointer'"
+    :class="{
+      'no-pointer-events': isSubmitted,
+      'cursor-pointer': !isSubmitted,
+      'bg-green-3': color == 'green',
+      'bg-red-3': color == 'red',
+      'bg-blue-3': color == 'blue',
+    }"
+    class="text-subtitle1 q-ma-sm q-pa-sm"
   >
     {{ label }}
-  </q-chip>
+  </q-card>
 </template>
 
 <script setup lang="ts">

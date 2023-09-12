@@ -8,6 +8,7 @@ import { updateUser, getUser } from "@/server/controller";
 export interface MatchingCase {
   image: string;
   name: string[];
+  scenario: string[];
   indication: string[];
 }
 
@@ -18,6 +19,7 @@ export interface MatchingQuestion {
 
 export interface MatchingCaseReply {
   name: string[];
+  scenario: string[];
   indication: string[];
 }
 
@@ -27,6 +29,7 @@ function createReply(): MatchingCaseReply[][] {
   return questions.map((q) =>
     q.cases.map(() => ({
       name: [],
+      scenario: [],
       indication: [],
     }))
   );
@@ -55,6 +58,7 @@ function createMatchingStore(phase: TestPhase) {
     const _blankCount: number = caseCount(index) + indicationCount(index);
     const _doneCount: number =
       _replies[index].map((item) => item.name).flat().length +
+      _replies[index].map((item) => item.scenario).flat().length +
       _replies[index].map((item) => item.indication).flat().length;
     return _blankCount === _doneCount;
   }
@@ -96,6 +100,7 @@ function createMatchingStore(phase: TestPhase) {
   function getAnswer(index: number): MatchingCaseReply[] {
     return questions[index].cases.map((c) => ({
       name: [c.name[0]],
+      scenario: [c.scenario[0]],
       indication: c.indication,
     }));
   }
@@ -103,11 +108,14 @@ function createMatchingStore(phase: TestPhase) {
   function isCaseCorrect(quesIndex: number, caseIndex: number): boolean {
     const nameReply: string[] = _replies[quesIndex][caseIndex].name;
     const nameAnswer: string[] = questions[quesIndex].cases[caseIndex].name;
+    const scenarioReply: string[] = _replies[quesIndex][caseIndex].scenario;
+    const scenarioAnswer: string[] = questions[quesIndex].cases[caseIndex].scenario;
     const indicationReply: string[] = _replies[quesIndex][caseIndex].indication;
     const indicationAnswer = questions[quesIndex].cases[caseIndex].indication;
 
     return (
       equalArray(nameReply.sort(), nameAnswer.sort()) &&
+      equalArray(scenarioReply.sort(), scenarioAnswer.sort()) &&
       equalArray(indicationReply.sort(), indicationAnswer.sort())
     );
   }
@@ -143,6 +151,7 @@ function createMatchingStore(phase: TestPhase) {
     _replies.forEach((_, index, arr) => {
       arr[index] = Array(questions[index].cases.length).fill({
         name: [],
+        scenario: [],
         indication: [],
       });
     });
