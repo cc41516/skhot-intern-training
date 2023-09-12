@@ -5,7 +5,7 @@
         <tr class="row">
           <th class="text-center col-3"><div class="text-h6">圖片</div></th>
           <th class="text-center col-2"><div class="text-h6">名稱</div></th>
-          <th class="text-center col-4"><div class="text-h6">情境</div></th>
+          <th class="text-center col-4"><div class="text-h6">情境描述</div></th>
           <th class="text-center col-3"><div class="text-h6">適應症</div></th>
         </tr>
       </thead>
@@ -101,7 +101,7 @@
       </draggable>
 
 
-      <div class="col-1 text-h6">情境</div>
+      <div class="col-1 text-h6">情境描述</div>
       <draggable
         :list="remainingScenarios"
         group="scenario"
